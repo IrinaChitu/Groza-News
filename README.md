@@ -12,6 +12,7 @@ Engine de stiri avand urmatoarele facilitati:
 - Se acorda 1pct din oficiu
 
 Observatii:
+
 ➢ Proiectele trebuie realizate in ASP.NET MVC 5.
 
 ➢ Interfata cu utilizatorul trebuie sa existe si se poate folosi Bootstrap sau orice alt framework pentru frontend, chiar si un template
