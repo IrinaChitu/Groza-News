@@ -13,16 +13,14 @@ Engine de stiri avand urmatoarele facilitati:
 
 Observatii:
 ➢ Proiectele trebuie realizate in ASP.NET MVC 5.
-➢ Interfata cu utilizatorul trebuie sa existe si se poate folosi Bootstrap
-sau orice alt framework pentru frontend, chiar si un template
+
+➢ Interfata cu utilizatorul trebuie sa existe si se poate folosi Bootstrap sau orice alt framework pentru frontend, chiar si un template
 (pentru lipsa designului se scad pana la 2 pct).
-➢ Atentie la campurile obligatorii in momentul completarii datelor in
-formulare, cat si la respectarea tipului de date pentru fiecare camp
-existent (Validari).
-➢ Accesarea paginilor sa se realizeze prin intermediul butoanelor sau
-link-urilor .
-➢ Administratorul are control deplin asupra aplicatiei (poate face CRUD
-– CREATE, READ, UPDATE, DELETE – adauga, vizualiza, edita, sterge
-orice tip de informatie corespunzatoare aplicatiei).
-➢ Nota maxima se obtine in momentul in care se respecta cerintele, dar
-si aceste reguli esentiale dezvoltarii unei aplicatii web.
+
+➢ Atentie la campurile obligatorii in momentul completarii datelor in formulare, cat si la respectarea tipului de date pentru fiecare camp existent (Validari).
+
+➢ Accesarea paginilor sa se realizeze prin intermediul butoanelor sau link-urilor .
+
+➢ Administratorul are control deplin asupra aplicatiei (poate face CRUD – CREATE, READ, UPDATE, DELETE – adauga, vizualiza, edita, sterge orice tip de informatie corespunzatoare aplicatiei).
+
+➢ Nota maxima se obtine in momentul in care se respecta cerintele, dar si aceste reguli esentiale dezvoltarii unei aplicatii web.
