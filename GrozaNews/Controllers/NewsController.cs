@@ -11,7 +11,7 @@ namespace GrozaNews.Controllers
     public class NewsController : Controller
     {
         // GET: News
-        [Authorize(Roles = "User,Editor,Administrator")]
+        [Authorize(Roles = "User,Editor,Administrator")] // de vazut cum faci sa vada orcine, nu doar daca esti deja logat
         public ActionResult Index()
         {
             return View();
