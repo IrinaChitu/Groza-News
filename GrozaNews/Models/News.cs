@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,9 +8,13 @@ namespace GrozaNews.Models
 {
     public class News
     {
-        public string Id { get; set; }
+        [Key]
+        public int NewsId { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Content { get; set; }
+        [Required]
         public string Date { get; set; }
 
         // feature: share pe social media
