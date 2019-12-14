@@ -106,21 +106,86 @@ namespace GrozaNews.Controllers
         }
 
         [Authorize(Roles = "Editor,Administrator")]
-        public ActionResult Edit(string Id)
+        public ActionResult Edit(int id)
         {
-            return View();
+            News news = db.News.Find(id);
+            ViewBag.Categories = GetAllCategories();
+
+            if (news.UserId == User.Identity.GetUserId() ||
+                User.IsInRole("Administrator"))
+            {
+                return View(news);
+            }
+            else
+            {
+                // recomand ca nici macar sa nu apara butonul de edit daca articolul nu e al tau // in view un check
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui articol care nu va apartine!";
+                return RedirectToAction("Index");
+            }
         }
 
         [Authorize(Roles = "Editor,Administrator")]
-        public ActionResult Edit(News news)
+        [ValidateInput(false)]
+        [HttpPut]
+        public ActionResult Edit(int id, News requestNews)
         {
-            return View();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    News news = db.News.Find(id);
+                    if (news.UserId == User.Identity.GetUserId() || User.IsInRole("Administrator"))
+                    {
+                        if (TryUpdateModel(news))
+                        {
+                            //article.Title = requestArticle.Title;
+                            // Protect content from XSS
+                            // requestArticle.Content = Sanitizer.GetSafeHtmlFragment(requestArticle.Content);
+                            //article.Content = requestArticle.Content;
+                            //article.Date = requestArticle.Date;
+                            //article.CategoryId = requestArticle.CategoryId;
+                            news = requestNews;
+                            db.SaveChanges();
+                            TempData["message"] = "Articolul a fost modificat!";
+                        }
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui articol care nu va apartine!";
+                        return RedirectToAction("Index");
+                    }
+
+                }
+                else
+                {
+                    return View(requestNews);
+                }
+
+            }
+            catch (Exception e)
+            {
+                return View(requestNews);
+            }
         }
 
+        [HttpDelete]
         [Authorize(Roles = "Editor,Administrator")]
-        public ActionResult Delete(string Id)
+        public ActionResult Delete(int id)
         {
-            return View();
+            News news = db.News.Find(id);
+            if (news.UserId == User.Identity.GetUserId() || User.IsInRole("Administrator"))
+            {
+                db.News.Remove(news);
+                db.SaveChanges();
+                TempData["message"] = "Articolul a fost sters!";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["message"] = "Nu aveti dreptul sa stergeti un articol care nu va apartine!";
+                return RedirectToAction("Index");
+            }
         }
 
 

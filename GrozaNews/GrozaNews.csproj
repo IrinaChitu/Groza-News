@@ -244,10 +244,14 @@
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\News\Show.cshtml" />
     <Content Include="Views\News\New.cshtml" />
+    <Content Include="Views\News\Edit.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\Show.cshtml" />
+    <Content Include="Views\Category\New.cshtml" />
+    <Content Include="Views\Category\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Category\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
