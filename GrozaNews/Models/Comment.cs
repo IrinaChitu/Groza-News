@@ -15,7 +15,7 @@ namespace GrozaNews.Models
         [Required]
         public string Date { get; set; }
         //de vazut daca treb si newsId pe langa virtual news 
-        public string NewsId {get; set;}
+        public int NewsId {get; set;}
         public virtual News News { get; set; }
 
         // autor

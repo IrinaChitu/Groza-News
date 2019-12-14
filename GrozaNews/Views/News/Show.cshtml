@@ -10,7 +10,16 @@
 <p>@Model.Content</p>
 <p>@Model.Date</p>
 
-
+@foreach (var comment in Model.Comments)
+{
+    @Html.Label("UserId", "Autor comment:")
+    <p>@comment.UserId</p>
+    <p>@comment.Content</p>
+    <a class="btn btn-success" href="/News/Edit/@comment.CommentId">Editare comentariu</a>
+    <br />
+    <hr />
+    <br />
+}
 
 <a href="/News/Edit/@Model.NewsId">Modifica stire</a>
 

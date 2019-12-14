@@ -30,10 +30,10 @@ namespace GrozaNews.Controllers
         {
             //poate facem sa adaugam de aici si stire cu categoria implicita (optional)
             Category category = db.Categories.Find(id);
-            var news = from article in db.News
-                            where article.CategoryId == id
-                            select article;
-            category.News = news.ToList();
+           // var news = from article in db.News
+          //                  where article.CategoryId == id
+          //                  select article;
+            // category.News = news.ToList();
             return View(category);
         }
 
