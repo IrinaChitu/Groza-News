@@ -66,13 +66,43 @@ namespace GrozaNews.Controllers
         [Authorize(Roles = "Editor,Administrator")]
         public ActionResult New()
         {
-            return View();
+            News news = new News();
+
+            // preluam lista de categorii din metoda GetAllCategories()
+            ViewBag.Categories = GetAllCategories();
+
+            // Preluam ID-ul utilizatorului curent
+            news.UserId = User.Identity.GetUserId();
+
+
+            return View(news);
         }
 
         [Authorize(Roles = "Editor,Administrator")]
+        [ValidateInput(false)] //dafuq?
+        [HttpPost]
         public ActionResult New(News news)
         {
-            return View();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    // Protect content from XSS --> wtf treb citit in lab ce e
+                    // news.Content = Sanitizer.GetSafeHtmlFragment(article.Content);
+                    db.News.Add(news);
+                    db.SaveChanges();
+                    TempData["message"] = "Articolul a fost adaugat!";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(news);
+                }
+            }
+            catch (Exception e)
+            {
+                return View(news);
+            }
         }
 
         [Authorize(Roles = "Editor,Administrator")]
@@ -91,6 +121,32 @@ namespace GrozaNews.Controllers
         public ActionResult Delete(string Id)
         {
             return View();
+        }
+
+
+        [NonAction]
+        public IEnumerable<SelectListItem> GetAllCategories()
+        {
+            // generam o lista goala
+            var selectList = new List<SelectListItem>();
+
+            // Extragem toate categoriile din baza de date
+            var categories = from cat in db.Categories
+                             select cat;
+
+            // iteram prin categorii
+            foreach (var category in categories)
+            {
+                // Adaugam in lista elementele necesare pentru dropdown
+                selectList.Add(new SelectListItem
+                {
+                    Value = category.CategoryId.ToString(),
+                    Text = category.CategoryName.ToString()
+                });
+            }
+
+            // returnam lista de categorii
+            return selectList;
         }
     }
 }

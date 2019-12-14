@@ -19,6 +19,7 @@ namespace GrozaNews.Models
 
         // feature: share pe social media
 
+        public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
