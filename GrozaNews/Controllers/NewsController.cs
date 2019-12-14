@@ -17,7 +17,7 @@ namespace GrozaNews.Controllers
         [Authorize(Roles = "User,Editor,Administrator")] // de vazut cum faci sa vada orcine, nu doar daca esti deja logat
         public ActionResult Index()
         {
-            var news = db.News.Include("Comment").Include("Category").Include("User").OrderBy(a => a.Date);
+            var news = db.News.Include("Comments").Include("Category").Include("User").OrderBy(a => a.Date);
             var totalItems = news.Count();
             var currentPage = Convert.ToInt32(Request.Params.Get("page"));
 
@@ -38,7 +38,7 @@ namespace GrozaNews.Controllers
             ViewBag.perPage = this._perPage;
             ViewBag.total = totalItems;
             ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)this._perPage);
-            ViewBag.Articles = paginatedNews;
+            ViewBag.News = paginatedNews;
 
             return View();
         }
