@@ -1,6 +1,8 @@
 ﻿using GrozaNews.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,6 +19,7 @@ namespace GrozaNews.Controllers
         [Authorize(Roles = "User,Editor,Administrator")] // de vazut cum faci sa vada orcine, nu doar daca esti deja logat
         public ActionResult Index()
         {
+            //de verificat cum arata impartirea pe pagini (ulterior si cu stilizare din view-uri, care momentan sunt temporare si de vazut si cum e cu partial views)
             var news = db.News.Include("Comments").Include("Category").Include("User").OrderBy(a => a.Date);
             var totalItems = news.Count();
             var currentPage = Convert.ToInt32(Request.Params.Get("page"));
@@ -44,9 +47,20 @@ namespace GrozaNews.Controllers
         }
 
         [Authorize(Roles = "User,Editor,Administrator")]
-        public ActionResult Show(string Id)
+        public ActionResult Show(int id)
         {
-            return View();
+            News news= db.News.Find(id);
+
+            ViewBag.afisareButoane = false;
+            if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+            {
+                ViewBag.afisareButoane = true;
+            }
+
+            ViewBag.esteAdmin = User.IsInRole("Administrator");
+            ViewBag.utilizatorCurent = User.Identity.GetUserId();
+
+            return View(news);
         }
 
         [Authorize(Roles = "Editor,Administrator")]

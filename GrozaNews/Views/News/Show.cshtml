@@ -1,0 +1,24 @@
+﻿@model GrozaNews.Models.News
+
+@{
+    ViewBag.Title = "Showing news";
+}
+<h2>@ViewBag.Title</h2>
+
+<h2>@Model.Title</h2>
+<h2>@Model.NewsId</h2>
+<p>@Model.Content</p>
+<p>@Model.Date</p>
+
+
+
+<a href="/News/Edit/@Model.NewsId">Modifica articol</a>
+
+<form method="post" action="/News/Delete/@Model.NewsId">
+    @Html.HttpMethodOverride(HttpVerbs.Delete)
+    <button type="submit">Sterge stire</button>
+</form>
+
+<hr /> <a href="/News/Index">Inapoi la stiri</a>
+<br /> <a href="/News/New">Adauga stire</a>
+<br />
