@@ -16,17 +16,22 @@
     @Html.Label("UserId", "Autor comentariu:")
     <p>@comment.User.Email</p>
     <p>@comment.Content</p>
-    <a class="btn btn-success" href="/Comment/Edit/@comment.CommentId">Editare comentariu</a>
-    <form method="post" action="/Comment/Delete/@comment.CommentId">
-        @Html.HttpMethodOverride(HttpVerbs.Delete)
-        <button type="submit">Sterge comentariu</button>
-    </form>
-    <br />
-    <hr />
-    <br />
+
+   if ((User.Identity.GetUserId() == Model.UserId) || User.IsInRole("Administrator"))
+    {
+        <a class="btn btn-success" href="/Comment/Edit/@comment.CommentId">Editare comentariu</a>
+        <form method="post" action="/Comment/Delete/@comment.CommentId">
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button type="submit">Sterge comentariu</button>
+        </form>
+        <br />
+        <hr />
+        <br />
+    }
+
 }
 
-@if (User.IsInRole("User") || User.IsInRole("Editor") || User.IsInRole("Administrato"))
+@if (User.IsInRole("User") || User.IsInRole("Editor") || User.IsInRole("Administrator"))
 {
     <form method="post" action="/Comment/New">
 
@@ -58,6 +63,7 @@
 
 @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
 {
-    <br /> <a href="/News/New">Adauga stire</a>
+    <br />
+    <a href="/News/New">Adauga stire</a>
 }
 <br />
