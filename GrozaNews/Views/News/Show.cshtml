@@ -26,17 +26,20 @@
     <br />
 }
 
-<form method="post" action="/Comment/New">
+@if (User.IsInRole("User") || User.IsInRole("Editor") || User.IsInRole("Administrato"))
+{
+    <form method="post" action="/Comment/New">
 
-    <textarea name="Content" placeholder="Scrie comentariu nou"></textarea>
-    <br />
+        <textarea name="Content" placeholder="Scrie comentariu nou"></textarea>
+        <br />
 
-    <input type="hidden" name="Date" value="@DateTime.Now" />
-    <input type="hidden" name="NewsId" value="@Model.NewsId" />
-    <br />
+        <input type="hidden" name="Date" value="@DateTime.Now" />
+        <input type="hidden" name="NewsId" value="@Model.NewsId" />
+        <br />
 
-    <button type="submit">Adauga comentariu</button>
-</form>
+        <button type="submit">Adauga comentariu</button>
+    </form>
+}
 
 @if ((User.IsInRole("Editor") && User.Identity.GetUserId() == Model.UserId) || User.IsInRole("Administrator"))
 {
