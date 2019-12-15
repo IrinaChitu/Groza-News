@@ -1,0 +1,32 @@
+Starbucks Bd Unirii - loc de munca excelent
+Studentii, in lipsa de bibilioteca, au apelat la noua cafenea Starbucks pentru a isi putea continua educatia!
+
+
+Noua aparatura VR
+Extraordinar! In sfarsit functioneaza!
+
+Teo maine seara:
+-> autentificare (vezi roluri)
+-> styling in urma unei sedinte de design cu Irina (esteticiana sefa) ;)
+
+
+TO DO:
+- autentificare
+- in afisarea sitirlor pe cateogrii sort by date si alpha
+- thumbnails (+add headline)
+- userii propun stiri noi editorilor
+- search bar
+- revoke user/editor rights
+- validari
+- go back buttons
+- edit comment => partial view (cred)
+- UI
+
+	1. autentificare 
+	2. autentificare
+	3. verificare roluri autentificare
+4. aici mai e nevoie de dropdown sort by
+5. autentificare + thumbnail
+6. edit comentariu + propune stiri noi
+	7. search engine
+	8. revoke rights
