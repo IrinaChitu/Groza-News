@@ -37,12 +37,14 @@ namespace GrozaNews.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Administrator")]
         public ActionResult New()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public ActionResult New(Category category)
         {
             try
@@ -65,6 +67,7 @@ namespace GrozaNews.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator")]
         public ActionResult Edit(int id)
         {
             Category category = db.Categories.Find(id);
@@ -72,6 +75,7 @@ namespace GrozaNews.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Edit(int id, Category requestCategory)
         {
             try
@@ -99,6 +103,7 @@ namespace GrozaNews.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Delete(int id)
         {
             Category category = db.Categories.Find(id);

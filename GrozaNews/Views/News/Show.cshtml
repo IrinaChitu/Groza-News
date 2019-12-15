@@ -38,14 +38,23 @@
     <button type="submit">Adauga comentariu</button>
 </form>
 
+@if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+{
+    <a href="/News/Edit/@Model.NewsId">Modifica stire</a>
+}
 
-<a href="/News/Edit/@Model.NewsId">Modifica stire</a>
-
-<form method="post" action="/News/Delete/@Model.NewsId">
-    @Html.HttpMethodOverride(HttpVerbs.Delete)
-    <button type="submit">Sterge stire</button>
-</form>
+@if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+{
+    <form method="post" action="/News/Delete/@Model.NewsId">
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
+        <button type="submit">Sterge stire</button>
+    </form>
+}
 
 <hr /> <a href="/News/Index">Inapoi la stiri</a>
-<br /> <a href="/News/New">Adauga stire</a>
+
+@if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+{
+    <br /> <a href="/News/New">Adauga stire</a>
+}
 <br />
