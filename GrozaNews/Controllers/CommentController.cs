@@ -16,7 +16,7 @@ namespace GrozaNews.Controllers
 
         // GET: Comment
         [HttpPost]
-        [Authorize(Roles = "User,Editor,Administrator")]
+        [Authorize(Roles = "User, Editor, Administrator")]
         public ActionResult New(Comment comment)
         {
             try

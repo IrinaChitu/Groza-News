@@ -9,14 +9,14 @@ using System.Web.Mvc;
 
 namespace GrozaNews.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    // [Authorize(Roles = "Administrator")]
     public class NewsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private int _perPage = 5;
 
         // GET: News
-        [Authorize(Roles = "User,Editor,Administrator")] // de vazut cum faci sa vada orcine, nu doar daca esti deja logat
+        // [Authorize(Roles = "User,Editor,Administrator")] // de vazut cum faci sa vada orcine, nu doar daca esti deja logat
         public ActionResult Index()
         {
             //de verificat cum arata impartirea pe pagini (ulterior si cu stilizare din view-uri, care momentan sunt temporare si de vazut si cum e cu partial views)
@@ -46,7 +46,7 @@ namespace GrozaNews.Controllers
             return View();
         }
 
-        [Authorize(Roles = "User,Editor,Administrator")]
+        // [Authorize(Roles = "User,Editor,Administrator")]
         public ActionResult Show(int id)
         {
             News news= db.News.Find(id);
@@ -138,12 +138,12 @@ namespace GrozaNews.Controllers
                     {
                         if (TryUpdateModel(news))
                         {
-                            //article.Title = requestArticle.Title;
+                            news.Title = requestNews.Title;
                             // Protect content from XSS
-                            // requestArticle.Content = Sanitizer.GetSafeHtmlFragment(requestArticle.Content);
-                            //article.Content = requestArticle.Content;
-                            //article.Date = requestArticle.Date;
-                            //article.CategoryId = requestArticle.CategoryId;
+                            // requestNews.Content = Sanitizer.GetSafeHtmlFragment(requestNews.Content);
+                            news.Content = requestNews.Content;
+                            news.Date = requestNews.Date;
+                            // news.CategoryId = requestArticle.CategoryId;
                             news = requestNews;
                             db.SaveChanges();
                             TempData["message"] = "Articolul a fost modificat!";

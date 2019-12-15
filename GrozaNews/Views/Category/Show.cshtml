@@ -12,7 +12,12 @@
     @Html.Label("Title", "Titlu stire")
     <p>@news.Title</p>
     <a class="btn btn-success" href="/News/Show/@news.NewsId">Afisare stire</a>
-    <a class="btn btn-success" href="/News/Edit/@news.NewsId">Editare stire</a>
+
+    if (User.IsInRole("Administrator") || User.IsInRole("Editor"))
+    {
+        <a class="btn btn-success" href="/News/Edit/@news.NewsId">Editare stire</a>
+    }
+
     <br />
     <hr />
     <br />
@@ -20,10 +25,12 @@
 
 @using (Html.BeginForm(actionName: "Delete", controllerName: "Category", routeValues: new { id = @Model.CategoryId }))
 {
-
     @Html.HttpMethodOverride(HttpVerbs.Delete)
 
-    <button class="btn btn-success" type="submit">Sterge categoria</button>
+    if (User.IsInRole("Administrator"))
+    {
+        <button class="btn btn-success" type="submit">Sterge categoria</button>
+    }
 }
 <br />
 <a class="btn btn-success" href="/Category/Index/">Afisare lista categorii</a>

@@ -19,5 +19,10 @@
     <br />
 }
 
-<br /> <a href="/News/New">Adauga stire</a>
+@if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+{
+    <br /> 
+    <a href="/News/New">Adauga stire</a>
+}
+
 <br />
