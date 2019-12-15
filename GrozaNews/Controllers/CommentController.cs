@@ -23,6 +23,7 @@ namespace GrozaNews.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    comment.UserId = User.Identity.GetUserId();
                     db.Comments.Add(comment);
                     db.SaveChanges();
                     // TempData["message"] = "Articolul a fost adaugat!";
