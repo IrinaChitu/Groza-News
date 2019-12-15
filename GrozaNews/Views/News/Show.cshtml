@@ -12,14 +12,32 @@
 
 @foreach (var comment in Model.Comments)
 {
-    @Html.Label("UserId", "Autor comment:")
-    <p>@comment.UserId</p>
+    @Html.Label("UserId", "Autor comentariu:")
+    <p>@comment.User.Email</p>
     <p>@comment.Content</p>
-    <a class="btn btn-success" href="/News/Edit/@comment.CommentId">Editare comentariu</a>
+    <a class="btn btn-success" href="/Comment/Edit/@comment.CommentId">Editare comentariu</a>
+    <form method="post" action="/Comment/Delete/@comment.CommentId">
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
+        <button type="submit">Sterge comentariu</button>
+    </form>
     <br />
     <hr />
     <br />
 }
+
+<form method="post" action="/Comment/New">
+
+    <textarea name="Content" placeholder="Scrie comentariu nou"></textarea>
+    <br />
+
+    <input type="hidden" name="Date" value="@DateTime.Now" />
+    <input type="hidden" name="NewsId" value="@Model.NewsId" />
+    <input type="hidden" name="UserId" value="@Model.UserId" />
+    <br />
+
+    <button type="submit">Adauga comentariu</button>
+</form>
+
 
 <a href="/News/Edit/@Model.NewsId">Modifica stire</a>
 
