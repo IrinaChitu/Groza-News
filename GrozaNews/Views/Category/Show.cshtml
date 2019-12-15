@@ -1,4 +1,6 @@
 ﻿@model GrozaNews.Models.Category
+@using Microsoft.AspNet.Identity;
+
 @{
     ViewBag.Title = "Afisare categorie";
 }
@@ -13,7 +15,7 @@
     <p>@news.Title</p>
     <a class="btn btn-success" href="/News/Show/@news.NewsId">Afisare stire</a>
 
-    if (User.IsInRole("Administrator") || User.IsInRole("Editor"))
+    if (User.IsInRole("Administrator") || (User.IsInRole("Editor") && User.Identity.GetUserId() == news.UserId))
     {
         <a class="btn btn-success" href="/News/Edit/@news.NewsId">Editare stire</a>
     }

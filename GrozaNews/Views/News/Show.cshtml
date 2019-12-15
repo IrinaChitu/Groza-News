@@ -1,4 +1,5 @@
 ﻿@model GrozaNews.Models.News
+@using Microsoft.AspNet.Identity;
 
 @{
     ViewBag.Title = "Showing news";
@@ -37,12 +38,12 @@
     <button type="submit">Adauga comentariu</button>
 </form>
 
-@if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+@if ((User.IsInRole("Editor") && User.Identity.GetUserId() == Model.UserId) || User.IsInRole("Administrator"))
 {
     <a href="/News/Edit/@Model.NewsId">Modifica stire</a>
 }
 
-@if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+@if ((User.IsInRole("Editor") && User.Identity.GetUserId() == Model.UserId) || User.IsInRole("Administrator"))
 {
     <form method="post" action="/News/Delete/@Model.NewsId">
         @Html.HttpMethodOverride(HttpVerbs.Delete)
