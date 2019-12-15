@@ -141,8 +141,8 @@ namespace GrozaNews.Controllers
                             news.Title = requestNews.Title;
                             // Protect content from XSS
                             // requestNews.Content = Sanitizer.GetSafeHtmlFragment(requestNews.Content);
-                            news.Content = requestNews.Content;
-                            news.Date = requestNews.Date;
+                            // news.Content = requestNews.Content;
+                            // news.Date = requestNews.Date;
                             // news.CategoryId = requestArticle.CategoryId;
                             news = requestNews;
                             db.SaveChanges();
@@ -212,6 +212,25 @@ namespace GrozaNews.Controllers
 
             // returnam lista de categorii
             return selectList;
+        }
+
+        public ActionResult SearchNews(string searching)
+        {
+            var listOfNews = new List<News>();
+
+            var allNews = from article in db.News
+                             select article;
+
+            foreach (var news in allNews)
+            {
+                if (news.Title.Contains(searching))
+                {
+                    listOfNews.Add(news);
+                }
+            }
+
+            ViewBag.News = listOfNews;
+            return View("Index");
         }
     }
 }
