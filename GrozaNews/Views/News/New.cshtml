@@ -4,7 +4,6 @@
 }
 
 <h2>@ViewBag.Title</h2>
-@ViewBag.Categories
 
 @using (Html.BeginForm(actionName: "New", controllerName: "News"))
 {
@@ -14,7 +13,7 @@
 
     @Html.Label("Title", "Titlu Stire")
     <br />
-    @Html.TextBox("Title", null, new { @class = "form-control" })
+    @Html.TextBox("Title", "", new { @class = "form-control" })
     @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
     <br />
     <br />

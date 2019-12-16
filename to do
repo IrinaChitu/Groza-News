@@ -22,11 +22,19 @@ TO DO:
 - edit comment => partial view (cred)
 - UI
 
-	1. autentificare 
-	2. autentificare
-	3. verificare roluri autentificare
+	1. done 
+	2. done
+	3. done
 4. aici mai e nevoie de dropdown sort by
-5. autentificare + thumbnail
+5. thumbnail
 6. edit comentariu + propune stiri noi
-	7. search engine
+	7. done
 	8. revoke rights
+	
+	
+-- sort stiri pe categorie
+-- thumbnail -> treb modificat modelul cu un boolean shared
+-- edit comment
+-- propose news as user and as editor accept or revoke
+-- admin revoke or give right to ppl
+
