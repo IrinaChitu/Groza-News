@@ -24,6 +24,10 @@
                     <li>@Html.ActionLink("Categories", "Index", "Category")</li>
                     <li>@Html.ActionLink("Propose", "Index", "News")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li>@Html.ActionLink("List of users", "UsersList", "Account")</li>
+                    }
                     <li>
                         <form action="/News/SearchNews">
                             <input type="text" name="searching" placeholder="Search news here" />
@@ -31,7 +35,7 @@
                             <button class="btn btn-sm btn-success" type="submit">Cauta</button>
                         </form>
                     </li>
-                    </ul>
+                </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

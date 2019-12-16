@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GrozaNews.Models;
+using System.Collections.Generic;
 
 namespace GrozaNews.Controllers
 {
@@ -50,6 +51,56 @@ namespace GrozaNews.Controllers
             {
                 _userManager = value;
             }
+        }
+
+        public ActionResult UsersList()
+        {
+            var users = UserManager.Users.ToList();
+
+            var res = new List<Tuple<string, string, string>>();
+            foreach (var user in users)
+            {
+                var tempTuple = Tuple.Create(user.Id, user.Email, string.Join(" ,", UserManager.GetRoles(user.Id)));
+                res.Add(tempTuple);
+            }
+
+            ViewBag.Users = res;
+
+            return View();
+        }
+
+        [HttpPut]
+        public ActionResult RevokeRights(string id)
+        {
+            var role = string.Join(" ,", UserManager.GetRoles(id));
+
+            if (role != "")
+            {
+                UserManager.RemoveFromRole(id, role);
+            }
+
+            //if (role == "User")
+            //{
+            //    UserManager.Delete(UserManager.FindById(id));
+            //}
+
+            if (role == "Editor")
+            {
+                UserManager.AddToRole(id, "User");
+            }
+
+            return RedirectToAction("UsersList");
+        }
+
+        [HttpPut]
+        public ActionResult GiveRights(string id)
+        {
+            if (UserManager.FindById(id) != null)
+            {
+                UserManager.AddToRole(id, Request.Form["roles"]);
+            }
+
+            return RedirectToAction("UsersList");
         }
 
         //
