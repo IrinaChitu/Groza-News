@@ -189,7 +189,7 @@ namespace GrozaNews.Controllers
         }
 
 
-        // [NonAction]
+        [NonAction]
         public IEnumerable<SelectListItem> GetAllCategories()
         {
             // generam o lista goala
