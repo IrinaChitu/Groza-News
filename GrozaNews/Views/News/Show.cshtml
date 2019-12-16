@@ -16,11 +16,15 @@
     @Html.Label("UserId", "Autor comentariu:")
     <p>@comment.User.Email</p>
     <p>@comment.Content</p>
-    <a class="btn btn-success" href="/Comment/Edit/@comment.CommentId">Editare comentariu</a>
-    <form method="post" action="/Comment/Delete/@comment.CommentId">
-        @Html.HttpMethodOverride(HttpVerbs.Delete)
-        <button type="submit">Sterge comentariu</button>
-    </form>
+
+    if (User.Identity.GetUserId() == comment.UserId || User.IsInRole("Administrator"))
+    {
+        <a class="btn btn-success" href="/Comment/Edit/@comment.CommentId">Editare comentariu</a>
+        <form method="post" action="/Comment/Delete/@comment.CommentId">
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button type="submit">Sterge comentariu</button>
+        </form>
+    }
     <br />
     <hr />
     <br />
@@ -44,10 +48,7 @@
 @if ((User.IsInRole("Editor") && User.Identity.GetUserId() == Model.UserId) || User.IsInRole("Administrator"))
 {
     <a href="/News/Edit/@Model.NewsId">Modifica stire</a>
-}
 
-@if ((User.IsInRole("Editor") && User.Identity.GetUserId() == Model.UserId) || User.IsInRole("Administrator"))
-{
     <form method="post" action="/News/Delete/@Model.NewsId">
         @Html.HttpMethodOverride(HttpVerbs.Delete)
         <button type="submit">Sterge stire</button>
@@ -58,6 +59,7 @@
 
 @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
 {
-    <br /> <a href="/News/New">Adauga stire</a>
+    <br />
+    <a href="/News/New">Adauga stire</a>
 }
 <br />
