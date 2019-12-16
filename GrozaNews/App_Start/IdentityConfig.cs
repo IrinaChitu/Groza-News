@@ -86,6 +86,11 @@ namespace GrozaNews
             }
             return manager;
         }
+
+        internal bool Find(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     // Configure the application sign-in manager which is used in this application.
