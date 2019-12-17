@@ -1,0 +1,45 @@
+Starbucks Bd Unirii - loc de munca excelent
+Studentii, in lipsa de bibilioteca, au apelat la noua cafenea Starbucks pentru a isi putea continua educatia!
+
+
+Noua aparatura VR
+Extraordinar! In sfarsit functioneaza!
+
+Teo maine seara:
+-> autentificare (vezi roluri)
+-> styling in urma unei sedinte de design cu Irina (esteticiana sefa) ;)
+
+
+TO DO:
+- autentificare
+- in afisarea sitirlor pe cateogrii sort by date si alpha
+- thumbnails (+add headline)
+- userii propun stiri noi editorilor
+- search bar
+- revoke user/editor rights
+- validari
+- go back buttons
+- edit comment => partial view (cred)
+- UI
+
+	1. done 
+	2. done
+	3. done
+4. aici mai e nevoie de dropdown sort by
+5. thumbnail
+6. edit comentariu + propune stiri noi
+	7. done
+	8. revoke rights
+	
+	
+-- sort stiri pe categorie
+-- thumbnail -> treb modificat modelul cu un boolean shared
+-- edit comment
+-- propose news as user and as editor accept or revoke
+-- admin revoke or give right to ppl
+
+
+-- issue: imediat dupa crearea unui user exista probleme de vizualizare a butoanelor (dupa inregistrare delogare si redirect catre pagina de logare)
+
+
+- dupa creare nu apare box de add coments si nii adauga stire sau orice altceva care verifica autentificarea userului (e ca si cum nu este logat din backend ci doar din ui)
