@@ -1,7 +1,4 @@
-﻿@using GrozaNews.Models
-
-@model News
-
+﻿
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +23,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Categories", "Index", "Category")</li>
-                    @* <li>@Html.ActionLink("Propose", "Index", "News")</li>*@
+                    <li>@Html.ActionLink("Propose", "Index", "News")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     @if (User.IsInRole("Administrator"))
                     {

@@ -12,17 +12,17 @@
 
     if (@user.Item3 == "")
     {
-    <form method="post" action="/Account/GiveRights/@user.Item1">
-        @Html.HttpMethodOverride(HttpVerbs.Put)
+        <form method="post" action="/Account/GiveRights/@user.Item1">
+            @Html.HttpMethodOverride(HttpVerbs.Put)
 
-        <select name="roles">
-            <option value="User">User</option>
-            <option value="Editor">Editor</option>
-            <option value="Administrator">Administrator</option>
-        </select>
+            <select name="roles">
+                <option value="User">User</option>
+                <option value="Editor">Editor</option>
+                <option value="Administrator">Administrator</option>
+            </select>
 
-        <button class="btn btn-revoke-rights" type="submit">Give rights back</button>
-    </form>
+            <button class="btn btn-revoke-rights" type="submit">Give rights back</button>
+        </form>
     }
     else
     {

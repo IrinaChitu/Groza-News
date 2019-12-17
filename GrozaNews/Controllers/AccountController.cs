@@ -10,7 +10,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GrozaNews.Models;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace GrozaNews.Controllers
 {
@@ -69,8 +68,8 @@ namespace GrozaNews.Controllers
 
             return View();
         }
-        
-        [HttpPut]   
+
+        [HttpPut]
         public ActionResult RevokeRights(string id)
         {
             var role = string.Join(" ,", UserManager.GetRoles(id));
@@ -100,7 +99,6 @@ namespace GrozaNews.Controllers
             {
                 UserManager.AddToRole(id, Request.Form["roles"]);
             }
-           
             return RedirectToAction("UsersList");
         }
 

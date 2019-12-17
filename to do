@@ -38,3 +38,5 @@ TO DO:
 -- propose news as user and as editor accept or revoke
 -- admin revoke or give right to ppl
 
+
+-- issue: imediat dupa crearea unui user exista probleme de vizualizare a butoanelor (dupa inregistrare delogare si redirect catre pagina de logare)
