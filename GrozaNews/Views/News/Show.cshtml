@@ -30,7 +30,7 @@
     <br />
 }
 
-@if (User.IsInRole("User") || User.IsInRole("Editor") || User.IsInRole("Administrato"))
+@if (Request.IsAuthenticated)
 {
     <form method="post" action="/Comment/New">
 
