@@ -1,6 +1,7 @@
 ﻿using GrozaNews.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -30,11 +31,12 @@ namespace GrozaNews.Controllers
         {
             //poate facem sa adaugam de aici si stire cu categoria implicita (optional)
             Category category = db.Categories.Find(id);
-           // var news = from article in db.News
-          //                  where article.CategoryId == id
-          //                  select article;
+            // var news = from article in db.News
+            //                  where article.CategoryId == id
+            //                  select article;
             // category.News = news.ToList();
-            return View(category);
+            ViewBag.category = category;
+            return View();
         }
 
         [Authorize(Roles = "Administrator")]
@@ -111,6 +113,22 @@ namespace GrozaNews.Controllers
             TempData["message"] = "Categoria a fost stearsa!";
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult SortNews(int id)
+        {
+            var news = db.News.Include("Comments").Include("Category").Include("User").OrderByDescending(a => a.Date);
+
+            if (Request.Form["sortBy"] == "Title")
+            {
+                Debug.WriteLine("cacat cu ochi", "hehehe");
+
+                news = db.News.Include("Comments").Include("Category").Include("User").OrderBy(a => a.Title);
+            }
+            Category category = db.Categories.Find(id);
+            category.News = news.ToList<News>();
+            @ViewBag.category = category;
+            return View("Show");
         }
     }
 }
