@@ -121,8 +121,6 @@ namespace GrozaNews.Controllers
 
             if (Request.Form["sortBy"] == "Title")
             {
-                Debug.WriteLine("cacat cu ochi", "hehehe");
-
                 news = db.News.Include("Comments").Include("Category").Include("User").OrderBy(a => a.Title);
             }
             Category category = db.Categories.Find(id);
