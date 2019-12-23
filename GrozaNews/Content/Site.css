@@ -31,3 +31,12 @@ textarea {
     border-radius: 5px;
     text-align: center;
 }
+
+.edit_message {
+    background-color: green;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}

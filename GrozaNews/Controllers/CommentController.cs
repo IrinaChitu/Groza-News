@@ -40,8 +40,68 @@ namespace GrozaNews.Controllers
             }
         }
 
+        // GET: Editarea unui comentariu.
+        [Authorize(Roles = "User, Editor, Administrator")]
+        public ActionResult Edit(int id)
+        {
+            Comment comment = db.Comments.Find(id);
+            //ViewBag.Categories = GetAllCategories();
+
+            if (comment.UserId == User.Identity.GetUserId() ||
+                User.IsInRole("Administrator"))
+            {
+                return View(comment);
+            }
+            else
+            {
+                // recomand ca nici macar sa nu apara butonul de edit daca articolul nu e al tau // in view un check
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra acestui comentariu care nu va apartine!";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [Authorize(Roles = "User, Editor, Administrator")]
+        [ValidateInput(false)]
+        [HttpPut]
+        public ActionResult Edit(int id, Comment requestComment)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Comment comment = db.Comments.Find(id);
+                    if (comment.UserId == User.Identity.GetUserId() || User.IsInRole("Administrator"))
+                    {
+                        if (TryUpdateModel(comment))
+                        {
+                            comment.Content = requestComment.Content;
+                            comment = requestComment;
+
+                            db.SaveChanges();
+                            TempData["message"] = "Comentariul a fost modificat!";
+                        }
+                        return Redirect($"/News/Show/{comment.NewsId}");
+                    }
+                    else
+                    {
+                        TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra acestui comentariu care nu va apartine!";
+                        return RedirectToAction("Index");
+                    }
+
+                }
+                else
+                {
+                    return View(requestComment);
+                }
+            }
+            catch (Exception)
+            {
+                return View(requestComment);
+            }
+        }
+
         [HttpDelete]
-        [Authorize(Roles = "Editor,Administrator")]
+        [Authorize(Roles = "User, Editor,Administrator")]
         public ActionResult Delete(int id)
         {
             Comment comment = db.Comments.Find(id);
