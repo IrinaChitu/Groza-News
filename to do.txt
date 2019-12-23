@@ -27,9 +27,9 @@ TO DO:
 	3. done
 	4. done
 5. thumbnail
-6. edit comentariu + propune stiri noi
+6. edit comentariu (DONE) + propune stiri noi
 	7. done
-	8. revoke rights
+	8. revoke rights -> DONE
 	
 
 -- thumbnail -> treb modificat modelul cu un boolean shared
