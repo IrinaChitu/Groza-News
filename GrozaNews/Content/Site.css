@@ -22,3 +22,12 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.error_message {
+    background-color: red;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
