@@ -3,7 +3,12 @@
     ViewBag.Title = "Index";
 }
 
-<h2>@TempData["ErrorMessage"]</h2>
+@if (TempData.ContainsKey("ErrorMessage"))
+{
+    <h2 class="error_message">@TempData["ErrorMessage"]</h2>
+
+}
+
 <h2>@ViewBag.Title</h2>
 
 @foreach (var news in ViewBag.News)
@@ -22,7 +27,7 @@
 
 @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
 {
-    <br /> 
+    <br />
     <a href="/News/New">Adauga stire</a>
 }
 
