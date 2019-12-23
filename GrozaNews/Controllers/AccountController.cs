@@ -71,35 +71,35 @@ namespace GrozaNews.Controllers
         }
 
         [HttpPut]
-        public ActionResult RevokeRights(string id)
+        public ActionResult ChangeRights(string id)
         {
-            var role = string.Join(" ,", UserManager.GetRoles(id));
-
-            if (role != "")
+            var right = Request.Form["roles"];
+            if (right != "Nothing")
             {
-                UserManager.RemoveFromRole(id, role);
+                var role = string.Join(" ,", UserManager.GetRoles(id));
+                if (role != "")
+                {
+                    UserManager.RemoveFromRole(id, role);
+                }
+
+                if (right == "User")
+                {
+                    UserManager.AddToRole(id, "User");
+                }
+                else if (right == "Editor")
+                {
+                    UserManager.AddToRole(id, "Editor");
+                }
+                else if (right == "Administrator")
+                {
+                    UserManager.AddToRole(id, "Administrator");
+                }
+                else if (right == "Banned")
+                {
+                    UserManager.AddToRole(id, "Banned");
+                }
             }
 
-            //if (role == "User")
-            //{
-            //    UserManager.Delete(UserManager.FindById(id));
-            //}
-
-            if (role == "Editor")
-            {
-                UserManager.AddToRole(id, "User");
-            }
-
-            return RedirectToAction("UsersList");
-        }
-
-        [HttpPut]
-        public ActionResult GiveRights(string id)
-        {
-            if (UserManager.FindById(id) != null)
-            {
-                UserManager.AddToRole(id, Request.Form["roles"]);
-            }
             return RedirectToAction("UsersList");
         }
 
@@ -130,7 +130,17 @@ namespace GrozaNews.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if (!UserManager.IsInRole(UserManager.FindByEmail(model.Email).Id, "Banned"))
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "You shall not pass! (∩｀-´)⊃━☆ﾟ.*･｡ﾟ");
+                        LogOff();
+                        TempData["ErrorMessage"] = "You shall not pass! (∩｀-´)⊃━☆ﾟ.*･｡ﾟ";
+                        return RedirectToAction("Index", "News");
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

@@ -1,4 +1,5 @@
-﻿
+﻿@using Microsoft.AspNet.Identity;
+
 @{
     ViewBag.Title = "UsersList";
 }
@@ -7,34 +8,28 @@
 
 @foreach (var user in ViewBag.Users)
 {
-    <h2>@user.Item2</h2>
-    <h2>@user.Item3</h2>
-
-    if (@user.Item3 == "")
+    if (@user.Item1 != User.Identity.GetUserId())
     {
-        <form method="post" action="/Account/GiveRights/@user.Item1">
+        <h2>@user.Item2</h2>
+        <h2>@user.Item3</h2>
+
+        <form method="post" action="/Account/ChangeRights/@user.Item1">
             @Html.HttpMethodOverride(HttpVerbs.Put)
 
             <select name="roles">
+                <option value="Nothing">--Change rights--</option>
                 <option value="User">User</option>
                 <option value="Editor">Editor</option>
                 <option value="Administrator">Administrator</option>
+                <option value="Banned">Ban user</option>
             </select>
 
-            <button class="btn btn-revoke-rights" type="submit">Give rights back</button>
+            <button class="btn btn-revoke-rights" type="submit">Change rights</button>
         </form>
-    }
-    else
-    {
-        <form method="post" action="/Account/RevokeRights/@user.Item1">
-            @Html.HttpMethodOverride(HttpVerbs.Put)
 
-            <button class="btn btn-revoke-rights" type="submit">Revoke rights</button>
-        </form>
+        <br />
+        <hr />
+        <br />
     }
-
-    <br />
-    <hr />
-    <br />
 }
 <br />

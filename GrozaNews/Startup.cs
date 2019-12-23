@@ -54,10 +54,18 @@ namespace GrozaNews
  
             if (!roleManager.RoleExists("User"))
             {
-                var role = new IdentityRole(); role.Name = "User";
+                var role = new IdentityRole();
+                role.Name = "User";
                 roleManager.Create(role);
-            } 
- 
-      }
+            }
+
+            if (!roleManager.RoleExists("Banned"))
+            {
+                var role = new IdentityRole();
+                role.Name = "Banned";
+                roleManager.Create(role);
+            }
+
+        }
     }
 }

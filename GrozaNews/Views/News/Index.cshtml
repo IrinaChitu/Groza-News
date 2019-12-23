@@ -3,6 +3,7 @@
     ViewBag.Title = "Index";
 }
 
+<h2>@TempData["ErrorMessage"]</h2>
 <h2>@ViewBag.Title</h2>
 
 @foreach (var news in ViewBag.News)

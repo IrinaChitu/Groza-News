@@ -13,6 +13,8 @@ namespace GrozaNews.Models
         [Required]
         public string CategoryName { get; set; }
 
+        //public int ceva { get; set; }
+
         public virtual ICollection<News> News { get; set; }
     }
 
