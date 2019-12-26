@@ -1,0 +1,27 @@
+﻿@model GrozaNews.Models.Comment
+
+@*@{
+    ViewBag.Titlu = "Editare Comentariu";
+}*@
+
+@*<h2>@ViewBag.Titlu</h2>*@
+
+@using (Html.BeginForm("Edit", "Comment", new { id = Model.CommentId }))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    <textarea name="Content" placeholder=@Model.Content>@Model.Content</textarea>
+    <br />
+
+    <input type="hidden" name="Date" value="@DateTime.Now" />
+    <input type="hidden" name="NewsId" value="@Model.NewsId" />
+    <br />
+    
+    <button class="btn btn-sm btn-success" type="submit">Modifica comentariu</button>
+}
+
+<form method="post" action="/Comment/Delete/@Model.CommentId">
+    @Html.HttpMethodOverride(HttpVerbs.Delete)
+    <button type="submit">Sterge comentariu</button>
+</form>
+

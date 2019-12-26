@@ -50,7 +50,10 @@ namespace GrozaNews.Controllers
             if (comment.UserId == User.Identity.GetUserId() ||
                 User.IsInRole("Administrator"))
             {
-                return View(comment);
+                TempData["inEditMode"] = true;
+                TempData["commentInEditMode"] = id;
+                return Redirect($"/News/Show/{comment.NewsId}");
+                //return View(comment);
             }
             else
             {
@@ -79,6 +82,8 @@ namespace GrozaNews.Controllers
 
                             db.SaveChanges();
                             TempData["message"] = "Comentariul a fost modificat!";
+                            TempData.Remove("inEditMode");
+                            TempData.Remove("commentInEditMode");
                         }
                         return Redirect($"/News/Show/{comment.NewsId}");
                     }
