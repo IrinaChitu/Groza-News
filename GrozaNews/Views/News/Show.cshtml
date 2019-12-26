@@ -24,11 +24,18 @@
 
     if (User.Identity.GetUserId() == comment.UserId || User.IsInRole("Administrator"))
     {
-        <a class="btn btn-success" href="/Comment/Edit/@comment.CommentId">Editare comentariu</a>
-        <form method="post" action="/Comment/Delete/@comment.CommentId">
-            @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button type="submit">Sterge comentariu</button>
-        </form>
+        if (TempData.ContainsKey("inEditMode") && TempData.ContainsKey("commentInEditMode"))
+        {
+            @Html.Partial("_editComment", comment);
+        }
+        else
+        {
+            <a class="btn btn-success" href="/Comment/Edit/@comment.CommentId">Editare comentariu</a>
+            <form method="post" action="/Comment/Delete/@comment.CommentId">
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                <button type="submit">Sterge comentariu</button>
+            </form>
+        }
     }
     <br />
     <hr />
