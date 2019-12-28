@@ -32,7 +32,7 @@
     <label>Selectati categoria</label>
     @Html.DropDownListFor(m => m.CategoryId,
         new SelectList(@ViewBag.Categories, "Value", "Text"),
-        "Selectati categoria", new { @class = "form-control" })
+        "Selectati categoria", new { @class = "form-control", required = "required" })
     @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
     <br />
 

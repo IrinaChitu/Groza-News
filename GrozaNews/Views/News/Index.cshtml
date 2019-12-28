@@ -9,6 +9,12 @@
 
 }
 
+@if (TempData.ContainsKey("message"))
+{
+    <h2 class="edit_message">@TempData["message"]</h2>
+
+}
+
 <h2>@ViewBag.Title</h2>
 
 @foreach (var news in ViewBag.News)

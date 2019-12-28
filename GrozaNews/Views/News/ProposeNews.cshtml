@@ -1,11 +1,11 @@
-﻿@model GrozaNews.Models.News
+﻿@model GrozaNews.Models.ProposedNews
 @{
-    ViewBag.Title = "New";
+    ViewBag.Title = "ProposeNews";
 }
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm(actionName: "New", controllerName: "News"))
+@using (Html.BeginForm(actionName: "ProposeNews", controllerName: "News"))
 {
     @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
@@ -35,5 +35,5 @@
     @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
     <br />
 
-    <button class="btn btn-sm btn-success" type="submit">Adauga stire</button>
+    <button class="btn btn-sm btn-success" type="submit">Propune stire</button>
 }

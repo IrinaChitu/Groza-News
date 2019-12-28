@@ -183,6 +183,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\News.cs" />
+    <Compile Include="Models\ProposedNews.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -253,6 +254,8 @@
     <Content Include="Views\Comment\New.cshtml" />
     <Content Include="Views\Account\UsersList.cshtml" />
     <Content Include="Views\Shared\_editComment.cshtml" />
+    <Content Include="Views\News\ProposeNews.cshtml" />
+    <Content Include="Views\News\IndexProposedNews.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
