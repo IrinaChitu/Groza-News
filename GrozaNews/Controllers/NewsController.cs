@@ -71,6 +71,11 @@ namespace GrozaNews.Controllers
             ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)this._perPage);
             ViewBag.News = paginatedNews;
 
+            if (TempData.ContainsKey("ProposedNewsToDelete") == true)
+            {
+                TempData.Remove("ProposedNewsToDelete");
+            }
+
             return View();
         }
 
@@ -117,7 +122,33 @@ namespace GrozaNews.Controllers
             // Preluam ID-ul utilizatorului curent
             news.UserId = User.Identity.GetUserId();
 
+            if (TempData.ContainsKey("ProposedNewsToDelete") == true)
+            {
+                TempData.Remove("ProposedNewsToDelete");
+            }
+
             return View(news);
+        }
+
+        [Authorize(Roles = "Editor, Administrator")]
+        public ActionResult EditProposedNews(int id)
+        {
+            ProposedNews proposedNews = db.ProposedNews.Find(id);
+            News news = new News();
+
+            news.Title = proposedNews.Title;
+            //// Protect content from XSS
+            //// requestNews.Content = Sanitizer.GetSafeHtmlFragment(requestNews.Content);
+            news.Content = proposedNews.Content;
+            news.Date = proposedNews.Date;
+            news.CategoryId = proposedNews.CategoryId ?? default(int);
+            news.Category = proposedNews.Category;
+            news.UserId = User.Identity.GetUserId();
+
+            ViewBag.Categories = GetAllCategories();
+            TempData["ProposedNewsToDelete"] = id;
+
+            return View("New", news);
         }
 
         [Authorize(Roles = "Editor,Administrator")]
@@ -132,6 +163,11 @@ namespace GrozaNews.Controllers
                     // Protect content from XSS --> wtf treb citit in lab ce e
                     // news.Content = Sanitizer.GetSafeHtmlFragment(article.Content);
                     db.News.Add(news);
+                    
+                    if (TempData.ContainsKey("ProposedNewsToDelete") == true)
+                    {
+                        db.ProposedNews.Remove(db.ProposedNews.Find(TempData["ProposedNewsToDelete"]));
+                    }
                     db.SaveChanges();
                     TempData["message"] = "Articolul a fost adaugat!";
                     return RedirectToAction("Index");
@@ -255,6 +291,10 @@ namespace GrozaNews.Controllers
                         db.ProposedNews.Remove(proposedNews);
                         db.SaveChanges();
                         TempData["message"] = "Stirea a fost stearsa cu succes!";
+                    }
+                    else if (submitButton == "Edit")
+                    {
+                        return RedirectToAction("EditProposedNews", new { id });
                     }
                     else
                     {
