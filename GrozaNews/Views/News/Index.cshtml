@@ -31,10 +31,23 @@
     <br />
 }
 
+@foreach (var thumbNews in ViewBag.ThumbNews)
+{
+    <h2>@thumbNews.Title</h2>
+    <h3>@thumbNews.Headline</h3>
+    <h2>@thumbNews.NewsId</h2>
+    <p>@thumbNews.Date</p>
+    <a href=@thumbNews.LinkStire><img src="@Url.Action("GetThumbnailImage", "News", new { @thumbNews.NewsId })" alt="News Image" /></a>
+    <br />
+    <hr />
+    <br />
+}
+
 @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
 {
     <br />
     <a href="/News/New">Adauga stire</a>
+    <a href="/News/NewThumbnail">Adauga stire preluata</a>
 }
 
 <br />

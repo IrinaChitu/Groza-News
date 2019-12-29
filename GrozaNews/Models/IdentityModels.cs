@@ -27,6 +27,7 @@ namespace GrozaNews.Models
 
         public DbSet<News> News { get; set; }
         public DbSet<ProposedNews> ProposedNews { get; set; }
+        public DbSet<ThumbnailedNews> ThumbnailedNews { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
 

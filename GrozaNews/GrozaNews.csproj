@@ -184,6 +184,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\News.cs" />
     <Compile Include="Models\ProposedNews.cs" />
+    <Compile Include="Models\ThumbnailedNews.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -256,6 +257,7 @@
     <Content Include="Views\Shared\_editComment.cshtml" />
     <Content Include="Views\News\ProposeNews.cshtml" />
     <Content Include="Views\News\IndexProposedNews.cshtml" />
+    <Content Include="Views\News\NewThumbnail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

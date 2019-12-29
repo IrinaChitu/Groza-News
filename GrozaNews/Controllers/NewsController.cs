@@ -3,6 +3,10 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,7 +17,7 @@ namespace GrozaNews.Controllers
     public class NewsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private int _perPage = 5;
+        private int _perPage = 100;
 
         // GET: News
         // [Authorize(Roles = "User,Editor,Administrator")] // de vazut cum faci sa vada orcine, nu doar daca esti deja logat
@@ -21,6 +25,8 @@ namespace GrozaNews.Controllers
         {
             //de verificat cum arata impartirea pe pagini (ulterior si cu stilizare din view-uri, care momentan sunt temporare si de vazut si cum e cu partial views)
             var news = db.News.Include("Comments").Include("Category").Include("User").OrderByDescending(a => a.Date);
+            var thumbNews = db.ThumbnailedNews.Include("User").OrderByDescending(a => a.Date);
+
             var totalItems = news.Count();
             var currentPage = Convert.ToInt32(Request.Params.Get("page"));
 
@@ -32,6 +38,7 @@ namespace GrozaNews.Controllers
             }
 
             var paginatedNews= news.Skip(offset).Take(this._perPage);
+            var paginatedThumbNews = thumbNews.Skip(offset).Take(this._perPage);
 
             if (TempData.ContainsKey("message"))
             {
@@ -42,6 +49,8 @@ namespace GrozaNews.Controllers
             ViewBag.total = totalItems;
             ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)this._perPage);
             ViewBag.News = paginatedNews;
+            ViewBag.ThumbNews = paginatedThumbNews;
+
 
             return View();
         }
@@ -100,6 +109,21 @@ namespace GrozaNews.Controllers
         public ActionResult New()
         {
             News news = new News();
+
+            // preluam lista de categorii din metoda GetAllCategories()
+            ViewBag.Categories = GetAllCategories();
+
+            // Preluam ID-ul utilizatorului curent
+            news.UserId = User.Identity.GetUserId();
+
+
+            return View(news);
+        }
+
+        [Authorize(Roles = "Editor,Administrator")]
+        public ActionResult NewThumbnail()
+        {
+            ThumbnailedNews news = new ThumbnailedNews();
 
             // preluam lista de categorii din metoda GetAllCategories()
             ViewBag.Categories = GetAllCategories();
@@ -180,6 +204,90 @@ namespace GrozaNews.Controllers
             catch (Exception e)
             {
                 return View(news);
+            }
+        }
+
+        [Authorize(Roles = "Editor,Administrator")]
+        [ValidateInput(false)] //dafuq?
+        [HttpPost]
+        public ActionResult NewThumbnail(ThumbnailedNews news, HttpPostedFileBase image)
+        {
+            Debug.WriteLine(Request.Form["image"], "DSADASDSADS");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (image != null)
+                    {
+                        //attach the uploaded image to the object before saving to Database
+                        news.ImageMimeType = image.ContentLength;
+                        news.ImageData = new byte[image.ContentLength];
+                        image.InputStream.Read(news.ImageData, 0, image.ContentLength);
+
+                        //Save image to file
+                        var filename = image.FileName;
+                        var filePathOriginal = Server.MapPath("/Content/Uploads/Originals");
+                        var filePathThumbnail = Server.MapPath("/Content/Uploads/Thumbnails");
+                        string savedFileName = Path.Combine(filePathOriginal, filename);
+                        image.SaveAs(savedFileName);
+
+                        //Read image back from file and create thumbnail from it
+                        var imageFile = Path.Combine(Server.MapPath("~/Content/Uploads/Originals"), filename);
+                        using (var srcImage = Image.FromFile(imageFile))
+                        using (var newImage = new Bitmap(100, 100))
+                        using (var graphics = Graphics.FromImage(newImage))
+                        using (var stream = new MemoryStream())
+                        {
+                            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                            graphics.DrawImage(srcImage, new Rectangle(0, 0, 100, 100));
+                            newImage.Save(stream, ImageFormat.Png);
+                            var thumbNew = File(stream.ToArray(), "image/png");
+                            news.ImageThumbnail = thumbNew.FileContents;
+                        }
+                    }
+
+                    TempData["message"] = "Articolul a fost adaugat!";
+
+                    //Save model object to database
+                    db.ThumbnailedNews.Add(news);
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                    // Protect content from XSS --> wtf treb citit in lab ce e
+                    // news.Content = Sanitizer.GetSafeHtmlFragment(article.Content);
+                    //db.ThumbnailedNews.Add(news);
+
+                    //if (TempData.ContainsKey("ProposedNewsToDelete") == true)
+                    //{
+                    //    db.ProposedNews.Remove(db.ProposedNews.Find(TempData["ProposedNewsToDelete"]));
+                    //}
+                    //db.SaveChanges();
+                    //TempData["message"] = "Articolul a fost adaugat!";
+                    //return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(news);
+                }
+            }
+            catch (Exception e)
+            {
+                return View(news);
+            }
+        }
+
+        public FileContentResult GetThumbnailImage(int NewsId)
+        {
+            ThumbnailedNews news = db.ThumbnailedNews.FirstOrDefault(p => p.NewsId == NewsId);
+            if (news != null)
+            {
+                return File(news.ImageThumbnail, news.ImageMimeType.ToString());
+            }
+            else
+            {
+                return null;
             }
         }
 
