@@ -258,6 +258,7 @@
     <Content Include="Views\News\ProposeNews.cshtml" />
     <Content Include="Views\News\IndexProposedNews.cshtml" />
     <Content Include="Views\News\NewThumbnail.cshtml" />
+    <Content Include="Views\News\EditThumb.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
