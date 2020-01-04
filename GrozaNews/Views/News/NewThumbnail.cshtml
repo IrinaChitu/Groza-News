@@ -1,0 +1,54 @@
+﻿@model GrozaNews.Models.ThumbnailedNews
+
+@{
+    ViewBag.Title = "Noua stire preluata";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("NewThumbnail", "News", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(m => m.UserId)
+
+    @Html.Label("Title", "Titlu Stire")
+    <br />
+    @Html.TextBoxFor(m => m.Title, Model.Title, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+    <br />
+    <br />
+
+    @Html.Label("Headline", "Headline Stire")
+    <br />
+    @Html.TextBoxFor(m => m.Headline, Model.Headline, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Headline, "", new { @class = "text-danger" })
+    <br />
+    <br />
+
+    @Html.Label("LinkStire", "Link Stire")
+    <br />
+    @Html.TextBoxFor(m => m.LinkStire, Model.LinkStire, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.LinkStire, "", new { @class = "text-danger" })
+    <br />
+    <br />
+
+    @Html.Hidden("Date", DateTime.Now, new { @class = "form-control" })
+
+    @*<label>Selectati categoria</label>
+
+    @Html.DropDownListFor(m => m.CategoryId, new SelectList(@ViewBag.Categories, "Value", "Text"),
+        "Selectati categoria", new { @class = "form-control" })*@
+
+    @*@Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })*@
+    @*<br />*@
+
+    @*@Html.LabelFor(model => model.ImageData, new { @class = "control-label col-md-2" })*@
+    @Html.Label("ImageData", "Imagine")
+    <div class="col-md-10">
+        <input name="image" type="file" />
+        @Html.ValidationMessageFor(model => model.ImageData)
+    </div>
+    <br />
+    <button class="btn btn-sm btn-success" type="submit">Adauga stire preluata</button>
+}

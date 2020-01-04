@@ -1,4 +1,5 @@
-﻿
+﻿@using Microsoft.AspNet.Identity;
+
 @{
     ViewBag.Title = "Index";
 }
@@ -31,10 +32,35 @@
     <br />
 }
 
+@foreach (var thumbNews in ViewBag.ThumbNews)
+{
+    <h2>@thumbNews.Title</h2>
+    <h3>@thumbNews.Headline</h3>
+    <h2>@thumbNews.NewsId</h2>
+    <p>@thumbNews.Date</p>
+    <a href=@thumbNews.LinkStire><img src="@Url.Action("GetThumbnailImage", "News", new { @thumbNews.NewsId })" alt="News Image" /></a>
+    <br />
+    <br />
+    if ((User.IsInRole("Editor") && User.Identity.GetUserId() == thumbNews.UserId) || User.IsInRole("Administrator"))
+    {
+        <a href="/News/EditThumb/@thumbNews.NewsId">Modifica stire</a>
+
+        <form method="post" action="/News/DeleteThumb/@thumbNews.NewsId">
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button type="submit">Sterge stire</button>
+        </form>
+    }
+
+    <br />
+    <hr />
+    <br />
+}
+
 @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
 {
     <br />
     <a href="/News/New">Adauga stire</a>
+    <a href="/News/NewThumbnail">Adauga stire preluata</a>
 }
 
 <br />
