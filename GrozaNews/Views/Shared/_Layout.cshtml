@@ -22,7 +22,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("News", "Index", "News")</li>
+                    @*<li>@Html.ActionLink("News", "Index", "News")</li>*@
                     <li>@Html.ActionLink("Categories", "Index", "Category")</li>
                     <li>@Html.ActionLink("Check also...", "IndexThumbNews", "News")</li>
                     @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
@@ -36,7 +36,7 @@
                     }
                     @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
                     {
-                        <li><a href="/News/IndexProposedNews">Lista stiri propuse</a></li>
+                        <li><a href="/News/IndexProposedNews">Propuneri</a></li>
                     }
                     <li>
                         <form action="/News/SearchNews">

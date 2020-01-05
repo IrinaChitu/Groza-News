@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity;
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Ultimele stiri";
 }
 
 @if (TempData.ContainsKey("ErrorMessage"))
@@ -20,19 +20,39 @@
 
 @foreach (var news in ViewBag.News)
 {
-    <h2>@news.Title</h2>
-    <h2>@news.NewsId</h2>
-    <p>@news.Content</p>
-    <p>@news.Date</p>
-    <p>@news.Category.CategoryId</p>
-    <p>@news.Category.CategoryName</p>
+    <div class="panel-heading article-heading">
+        <span class="font-roboto article-title">@news.Title</span>
+    </div>
 
-    <img src="@Url.Action("GetImage", "News", new { @news.NewsId })" alt="News Image" />
-    <br />
-    <a href="/News/Show/@news.NewsId">Afisare stire</a>
-    <br />
-    <hr />
-    <br />
+    <div class="panel-body">
+        <div>
+            <div class="article-content-wrapper"  style="width: 50%; float:left">
+                @Html.Raw(news.Content)
+            </div>
+
+            <div style="width: 50%; float:right">
+                <img src="@Url.Action("GetImage", "News", new { @news.NewsId })" alt="News Image" style="float:right" />
+            </div>
+        </div>
+    </div>
+    <div class="article-meta">
+        <span class="">
+            <i class="glyphicon glyphicon-time"></i>
+            @news.Date
+        </span>
+        <div>
+            <i class="glyphicon glyphicon-bookmark"></i>
+            @news.Category.CategoryName
+        </div>
+        <div>
+            <i class="glyphicon glyphicon-user"></i>
+            <strong> @news.User.Email.Split('@')[0] </strong>
+        </div>
+    </div>
+
+    <div class="panel-footer article-panel-footer around">
+        <a class="btn btn-sm btn-success full-width" href="/News/Show/@news.NewsId">Afisare stire</a>
+    </div>
 }
 
 @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
