@@ -165,12 +165,23 @@ namespace GrozaNews.Controllers
             //// requestNews.Content = Sanitizer.GetSafeHtmlFragment(requestNews.Content);
             news.Content = proposedNews.Content;
             news.Date = proposedNews.Date;
+            news.ImageData = proposedNews.ImageData;
+            news.ImageMimeType = proposedNews.ImageMimeType;
+            news.ImageThumbnail = proposedNews.ImageThumbnail;
             news.CategoryId = proposedNews.CategoryId ?? default(int);
             news.Category = proposedNews.Category;
             news.UserId = User.Identity.GetUserId();
-
+            
+            string imreBase64Data = Convert.ToBase64String(news.ImageData, 0, news.ImageMimeType);
+            string imgDataURL = string.Format("data:image;base64,{0}", imreBase64Data);
+            
+            //Passing image data in viewbag to view  
+            ViewBag.Img = imgDataURL;
             ViewBag.Categories = GetAllCategories();
             TempData["ProposedNewsToDelete"] = id;
+            TempData["ImageData"] = proposedNews.ImageData;
+            TempData["ImageMimeType"] = proposedNews.ImageMimeType;
+            TempData["ImageThumbnail"] = proposedNews.ImageThumbnail;
 
             return View("New", news);
         }
@@ -178,7 +189,7 @@ namespace GrozaNews.Controllers
         [Authorize(Roles = "Editor,Administrator")]
         [ValidateInput(false)] //dafuq?
         [HttpPost]
-        public ActionResult New(News news)
+        public ActionResult New(News news, HttpPostedFileBase image)
         {
             try
             {
@@ -186,6 +197,62 @@ namespace GrozaNews.Controllers
                 {
                     // Protect content from XSS --> wtf treb citit in lab ce e
                     // news.Content = Sanitizer.GetSafeHtmlFragment(article.Content);
+                    if (image != null)
+                    {
+                        //attach the uploaded image to the object before saving to Database
+                        news.ImageMimeType = image.ContentLength;
+                        news.ImageData = new byte[image.ContentLength];
+                        image.InputStream.Read(news.ImageData, 0, image.ContentLength);
+
+                        //Save image to file
+                        var filename = image.FileName;
+                        var filePathOriginal = Server.MapPath("/Content/Uploads/Originals");
+                        var filePathThumbnail = Server.MapPath("/Content/Uploads/Thumbnails");
+                        string savedFileName = Path.Combine(filePathOriginal, filename);
+                        image.SaveAs(savedFileName);
+
+                        //Read image back from file and create thumbnail from it
+                        var imageFile = Path.Combine(Server.MapPath("~/Content/Uploads/Originals"), filename);
+                        using (var srcImage = Image.FromFile(imageFile))
+                        using (var newImage = new Bitmap(100, 100))
+                        using (var graphics = Graphics.FromImage(newImage))
+                        using (var stream = new MemoryStream())
+                        {
+                            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                            graphics.DrawImage(srcImage, new Rectangle(0, 0, 100, 100));
+                            newImage.Save(stream, ImageFormat.Png);
+                            var thumbNew = File(stream.ToArray(), "image/png");
+                            news.ImageThumbnail = thumbNew.FileContents;
+                        }
+                    }
+
+                    if (TempData.ContainsKey("ImageData"))
+                    {
+                        news.ImageMimeType = (int)TempData["ImageMimeType"];
+                        news.ImageData = (byte[])TempData["ImageData"];
+
+                        using (var ms = new MemoryStream(news.ImageData))
+                        using (var srcImage = Image.FromStream(ms))
+                        using (var newImage = new Bitmap(100, 100))
+                        using (var graphics = Graphics.FromImage(newImage))
+                        using (var stream = new MemoryStream())
+                        {
+                            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                            graphics.DrawImage(srcImage, new Rectangle(0, 0, 100, 100));
+                            newImage.Save(stream, ImageFormat.Png);
+                            var thumbNew = File(stream.ToArray(), "image/png");
+                            news.ImageThumbnail = thumbNew.FileContents;
+                        }
+
+                        TempData.Remove("ImageData");
+                        TempData.Remove("ImageMimeType");
+                        TempData.Remove("ImageThumbnail");
+                    }
+
                     db.News.Add(news);
                     
                     if (TempData.ContainsKey("ProposedNewsToDelete") == true)
@@ -193,7 +260,7 @@ namespace GrozaNews.Controllers
                         db.ProposedNews.Remove(db.ProposedNews.Find(TempData["ProposedNewsToDelete"]));
                     }
                     db.SaveChanges();
-                    TempData["message"] = "Articolul a fost adaugat!";
+                    TempData["message"] = "Stirea a fost adaugata!";
                     return RedirectToAction("Index");
                 }
                 else
@@ -254,17 +321,6 @@ namespace GrozaNews.Controllers
                     db.SaveChanges();
 
                     return RedirectToAction("Index");
-                    // Protect content from XSS --> wtf treb citit in lab ce e
-                    // news.Content = Sanitizer.GetSafeHtmlFragment(article.Content);
-                    //db.ThumbnailedNews.Add(news);
-
-                    //if (TempData.ContainsKey("ProposedNewsToDelete") == true)
-                    //{
-                    //    db.ProposedNews.Remove(db.ProposedNews.Find(TempData["ProposedNewsToDelete"]));
-                    //}
-                    //db.SaveChanges();
-                    //TempData["message"] = "Articolul a fost adaugat!";
-                    //return RedirectToAction("Index");
                 }
                 else
                 {
@@ -282,7 +338,42 @@ namespace GrozaNews.Controllers
             ThumbnailedNews news = db.ThumbnailedNews.FirstOrDefault(p => p.NewsId == NewsId);
             if (news != null)
             {
-                return File(news.ImageThumbnail, news.ImageMimeType.ToString());
+                if (news.ImageThumbnail != null && news.ImageMimeType.ToString() != null)
+                    return File(news.ImageThumbnail, news.ImageMimeType.ToString());
+                else
+                    return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public FileContentResult GetImage(int NewsId)
+        {
+            News news = db.News.FirstOrDefault(p => p.NewsId == NewsId);
+            if (news != null)
+            {
+                if (news.ImageThumbnail != null && news.ImageMimeType.ToString() != null)
+                    return File(news.ImageThumbnail, news.ImageMimeType.ToString());
+                else
+                    return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public FileContentResult GetProposedImage(int NewsId)
+        {
+            ProposedNews news = db.ProposedNews.FirstOrDefault(p => p.NewsId == NewsId);
+            if (news != null)
+            {
+                if (news.ImageThumbnail != null && news.ImageMimeType.ToString() != null)
+                    return File(news.ImageThumbnail, news.ImageMimeType.ToString());
+                else
+                    return null;
             }
             else
             {
@@ -293,12 +384,43 @@ namespace GrozaNews.Controllers
         [Authorize(Roles = "User, Editor,Administrator")]
         [ValidateInput(true)] //dafuq?
         [HttpPost]
-        public ActionResult ProposeNews(ProposedNews news)
+        public ActionResult ProposeNews(ProposedNews news, HttpPostedFileBase image)
         {
             try
             {
                 if (ModelState.IsValid && news.CategoryId != null)
                 {
+                    if (image != null)
+                    {
+                        //attach the uploaded image to the object before saving to Database
+                        news.ImageMimeType = image.ContentLength;
+                        news.ImageData = new byte[image.ContentLength];
+                        image.InputStream.Read(news.ImageData, 0, image.ContentLength);
+
+                        //Save image to file
+                        var filename = image.FileName;
+                        var filePathOriginal = Server.MapPath("/Content/Uploads/Originals");
+                        var filePathThumbnail = Server.MapPath("/Content/Uploads/Thumbnails");
+                        string savedFileName = Path.Combine(filePathOriginal, filename);
+                        image.SaveAs(savedFileName);
+
+                        //Read image back from file and create thumbnail from it
+                        var imageFile = Path.Combine(Server.MapPath("~/Content/Uploads/Originals"), filename);
+                        using (var srcImage = Image.FromFile(imageFile))
+                        using (var newImage = new Bitmap(100, 100))
+                        using (var graphics = Graphics.FromImage(newImage))
+                        using (var stream = new MemoryStream())
+                        {
+                            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                            graphics.DrawImage(srcImage, new Rectangle(0, 0, 100, 100));
+                            newImage.Save(stream, ImageFormat.Png);
+                            var thumbNew = File(stream.ToArray(), "image/png");
+                            news.ImageThumbnail = thumbNew.FileContents;
+                        }
+                    }
+
                     // Protect content from XSS --> wtf treb citit in lab ce e
                     // news.Content = Sanitizer.GetSafeHtmlFragment(article.Content);
                     db.ProposedNews.Add(news);
@@ -357,18 +479,49 @@ namespace GrozaNews.Controllers
 
         [Authorize(Roles = "Editor,Administrator")]
         [ValidateInput(false)]
-        [HttpPut]
-        public ActionResult Edit(int id, News requestNews)
+        [HttpPost]
+        public ActionResult Edit(News requestNews, HttpPostedFileBase image)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    News news = db.News.Find(id);
+                    News news = db.News.Find(requestNews.NewsId);
                     if (news.UserId == User.Identity.GetUserId() || User.IsInRole("Administrator"))
                     {
                         if (TryUpdateModel(news))
                         {
+                            if (image != null)
+                            {
+                                //attach the uploaded image to the object before saving to Database
+                                news.ImageMimeType = image.ContentLength;
+                                news.ImageData = new byte[image.ContentLength];
+                                image.InputStream.Read(news.ImageData, 0, image.ContentLength);
+
+                                //Save image to file
+                                var filename = image.FileName;
+                                var filePathOriginal = Server.MapPath("/Content/Uploads/Originals");
+                                var filePathThumbnail = Server.MapPath("/Content/Uploads/Thumbnails");
+                                string savedFileName = Path.Combine(filePathOriginal, filename);
+                                image.SaveAs(savedFileName);
+
+                                //Read image back from file and create thumbnail from it
+                                var imageFile = Path.Combine(Server.MapPath("~/Content/Uploads/Originals"), filename);
+                                using (var srcImage = Image.FromFile(imageFile))
+                                using (var newImage = new Bitmap(100, 100))
+                                using (var graphics = Graphics.FromImage(newImage))
+                                using (var stream = new MemoryStream())
+                                {
+                                    graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                                    graphics.DrawImage(srcImage, new Rectangle(0, 0, 100, 100));
+                                    newImage.Save(stream, ImageFormat.Png);
+                                    var thumbNew = File(stream.ToArray(), "image/png");
+                                    news.ImageThumbnail = thumbNew.FileContents;
+                                }
+                            }
+
                             news.Title = requestNews.Title;
                             // Protect content from XSS
                             // requestNews.Content = Sanitizer.GetSafeHtmlFragment(requestNews.Content);
@@ -377,7 +530,7 @@ namespace GrozaNews.Controllers
                             // news.CategoryId = requestArticle.CategoryId;
                             news = requestNews;
                             db.SaveChanges();
-                            TempData["message"] = "Articolul a fost modificat!";
+                            TempData["message"] = "Stirea a fost modificata!";
                         }
                         return RedirectToAction("Index");
                     }
@@ -510,6 +663,9 @@ namespace GrozaNews.Controllers
                             //// requestNews.Content = Sanitizer.GetSafeHtmlFragment(requestNews.Content);
                             news.Content = proposedNews.Content;
                             news.Date = proposedNews.Date;
+                            news.ImageData = proposedNews.ImageData;
+                            news.ImageMimeType = proposedNews.ImageMimeType;
+                            news.ImageThumbnail = proposedNews.ImageThumbnail;
                             news.CategoryId = proposedNews.CategoryId ?? default(int);
                             news.Category = proposedNews.Category;
                             news.UserId = User.Identity.GetUserId();

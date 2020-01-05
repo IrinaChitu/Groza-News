@@ -26,6 +26,9 @@
     <p>@news.Date</p>
     <p>@news.Category.CategoryId</p>
     <p>@news.Category.CategoryName</p>
+    
+    <img src="@Url.Action("GetImage", "News", new { @news.NewsId })" alt="News Image" />
+    <br />
     <a href="/News/Show/@news.NewsId">Afisare stire</a>
     <br />
     <hr />
@@ -60,6 +63,7 @@
 {
     <br />
     <a href="/News/New">Adauga stire</a>
+    <br />
     <a href="/News/NewThumbnail">Adauga stire preluata</a>
 }
 

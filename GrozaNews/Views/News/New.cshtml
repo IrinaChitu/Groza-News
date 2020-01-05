@@ -5,7 +5,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm(actionName: "New", controllerName: "News"))
+@using (Html.BeginForm("New", "News", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
@@ -33,6 +33,23 @@
         "Selectati categoria", new { @class = "form-control", required = "required" })
 
     @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
+    <br />
+    if (ViewBag.Img != null)
+    {
+        <img src="@ViewBag.Img"></img>
+        <div class="col-md-10">
+            <input name="image" type="file" />
+            @Html.ValidationMessageFor(model => model.ImageData)
+        </div>
+    }
+    else
+    {
+        <div class="col-md-10">
+            <input name="image" type="file" required/>
+            @Html.ValidationMessageFor(model => model.ImageData)
+        </div>
+    }
+
     <br />
 
     <button class="btn btn-sm btn-success" type="submit">Adauga stire</button>

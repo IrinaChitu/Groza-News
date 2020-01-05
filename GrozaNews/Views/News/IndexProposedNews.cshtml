@@ -16,6 +16,7 @@
     <h2>@news.Title</h2>
     <h2>@news.NewsId</h2>
     <p>@news.Content</p>
+    <img src="@Url.Action("GetProposedImage", "News", new { @news.NewsId })" alt="News Image" />
     <p>@news.Date</p>
     <p>@news.Category.CategoryId</p>
     <p>@news.Category.CategoryName</p>
@@ -27,7 +28,7 @@
         <input class="btn btn-sm btn-warning" name="submitButton" type="submit" value="Edit" />
         <input class="btn btn-sm btn-danger" name="submitButton" type="submit" value="Reject" />
     }
-    
+
     <br />
     <hr />
     <br />

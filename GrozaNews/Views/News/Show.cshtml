@@ -14,6 +14,7 @@
 <h2>@Model.Title</h2>
 <h2>@Model.NewsId</h2>
 <p>@Model.Content</p>
+<img src="@Url.Action("GetImage", "News", new { @Model.NewsId })" alt="News Image" />
 <p>@Model.Date</p>
 
 @foreach (var comment in Model.Comments)
