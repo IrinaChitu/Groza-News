@@ -47,7 +47,9 @@
     @*<br />*@
 
     @*@Html.LabelFor(model => model.ImageData, new { @class = "control-label col-md-2" })*@
-    @Html.Label("ImageData", "Imagine")
+    @*@Html.Label("ImageData", "Imagine")*@
+    <img src="@Url.Action("GetThumbnailImage", "News", new { @Model.NewsId })" alt="News Image" />
+    <br />
     <div class="col-md-10">
         <input name="image" type="file" />
         @Html.ValidationMessageFor(model => model.ImageData)

@@ -17,6 +17,10 @@ namespace GrozaNews.Models
         [Required]
         public string Date { get; set; }
 
+        public byte[] ImageData { get; set; }
+        public byte[] ImageThumbnail { get; set; }
+        public int ImageMimeType { get; internal set; }
+
         // feature: share pe social media
 
         public int? CategoryId { get; set; }

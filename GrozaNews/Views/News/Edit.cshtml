@@ -6,10 +6,8 @@
 
 <h2>@ViewBag.Titlu</h2>
 
-@using (Html.BeginForm(actionName: "Edit", controllerName: "News"))
+@using (Html.BeginForm("Edit", "News", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
 {
-    @Html.HttpMethodOverride(HttpVerbs.Put)
-
     @Html.HiddenFor(m => m.NewsId)
     <br />
     @Html.Label("Title", "Titlu Stire")
@@ -34,6 +32,13 @@
         new SelectList(@ViewBag.Categories, "Value", "Text"),
         "Selectati categoria", new { @class = "form-control", required = "required" })
     @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
+    <br />
+    <img src="@Url.Action("GetImage", "News", new { @Model.NewsId })" alt="News Image" />
+    <br />
+    <div class="col-md-10">
+        <input name="image" type="file" />
+        @Html.ValidationMessageFor(model => model.ImageData)
+    </div>
     <br />
 
     <button class="btn btn-sm btn-success" type="submit">Modifica stire</button>
