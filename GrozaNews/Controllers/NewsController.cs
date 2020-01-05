@@ -380,8 +380,8 @@ namespace GrozaNews.Controllers
             News news = db.News.FirstOrDefault(p => p.NewsId == NewsId);
             if (news != null)
             {
-                if (news.ImageThumbnail != null && news.ImageMimeType.ToString() != null)
-                    return File(news.ImageThumbnail, news.ImageMimeType.ToString());
+                if (news.ImageData != null && news.ImageMimeType.ToString() != null)
+                    return File(news.ImageData, news.ImageMimeType.ToString());
                 else
                     return null;
             }
@@ -396,8 +396,8 @@ namespace GrozaNews.Controllers
             ProposedNews news = db.ProposedNews.FirstOrDefault(p => p.NewsId == NewsId);
             if (news != null)
             {
-                if (news.ImageThumbnail != null && news.ImageMimeType.ToString() != null)
-                    return File(news.ImageThumbnail, news.ImageMimeType.ToString());
+                if (news.ImageData != null && news.ImageMimeType.ToString() != null)
+                    return File(news.ImageData, news.ImageMimeType.ToString());
                 else
                     return null;
             }

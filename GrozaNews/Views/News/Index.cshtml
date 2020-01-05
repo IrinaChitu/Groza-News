@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity;
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Ultimele noutati";
 }
 
 @if (TempData.ContainsKey("ErrorMessage"))
@@ -16,18 +16,26 @@
 
 }
 
+<div class="card" style="width: 18rem;">
+    <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+</div>
+
 <h2>@ViewBag.Title</h2>
 
 @foreach (var news in ViewBag.News)
 {
     <h2>@news.Title</h2>
-    <h2>@news.NewsId</h2>
-    <p>@news.Content</p>
     <p>@news.Date</p>
-    <p>@news.Category.CategoryId</p>
+    <p>@news.Content</p>
     <p>@news.Category.CategoryName</p>
+    <p>Publicat de catre <b>@news.User.Email.Split('@')[0]</b></p>
 
-    <img src="@Url.Action("GetImage", "News", new { @news.NewsId })" alt="News Image" />
+    <img src="@Url.Action("GetImage", "News", new { @news.NewsId })" alt="News Image" width="50%" height="50%"/>
     <br />
     <a href="/News/Show/@news.NewsId">Afisare stire</a>
     <br />
