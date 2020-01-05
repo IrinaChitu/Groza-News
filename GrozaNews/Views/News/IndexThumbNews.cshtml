@@ -1,0 +1,74 @@
+﻿@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "IndexThumbNews";
+}
+
+@if (TempData.ContainsKey("ErrorMessage"))
+{
+    <h2 class="error_message">@TempData["ErrorMessage"]</h2>
+
+}
+
+@if (TempData.ContainsKey("message"))
+{
+    <h2 class="edit_message">@TempData["message"]</h2>
+
+}
+
+<h2>@ViewBag.Title</h2>
+
+@foreach (var thumbNews in ViewBag.ThumbNews)
+{
+    <h2>@thumbNews.Title</h2>
+    <h3>@thumbNews.Headline</h3>
+    <h2>@thumbNews.NewsId</h2>
+    <p>@thumbNews.Date</p>
+    <a href=@thumbNews.LinkStire><img src="@Url.Action("GetThumbnailImage", "News", new { @thumbNews.NewsId })" alt="News Image" /></a>
+    <br />
+    <br />
+    if ((User.IsInRole("Editor") && User.Identity.GetUserId() == thumbNews.UserId) || User.IsInRole("Administrator"))
+    {
+        <a href="/News/EditThumb/@thumbNews.NewsId">Modifica stire</a>
+
+        <form method="post" action="/News/DeleteThumb/@thumbNews.NewsId">
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button type="submit">Sterge stire</button>
+        </form>
+    }
+
+    <br />
+    <hr />
+    <br />
+}
+
+@if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+{
+    <br />
+    <a href="/News/New">Adauga stire</a>
+    <br />
+    <a href="/News/NewThumbnail">Adauga stire preluata</a>
+}
+
+<br />
+
+<div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li>
+                <a href="/News/IndexThumbNews?page=1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            @for (int i = 1; i <= ViewBag.lastPage; i++)
+            {
+                <li><a href="/News/IndexThumbNews?page=@i">@(i)</a></li>
+            }
+            <li>
+                <a href="/News/IndexThumbNews?page=@(ViewBag.lastPage)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
