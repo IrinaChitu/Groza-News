@@ -22,9 +22,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("News", "Index", "News")</li>
                     <li>@Html.ActionLink("Categories", "Index", "Category")</li>
-                    <li>@Html.ActionLink("Propose", "Index", "News")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Check also...", "IndexThumbNews", "News")</li>
+                    @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                     @if (User.IsInRole("Administrator"))
                     {
                         <li>@Html.ActionLink("List of users", "UsersList", "Account")</li>

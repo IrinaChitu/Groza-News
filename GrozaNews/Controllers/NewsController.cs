@@ -17,15 +17,14 @@ namespace GrozaNews.Controllers
     public class NewsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private int _perPage = 100;
+        private int _perPage = 5;
 
         // GET: News
         // [Authorize(Roles = "User,Editor,Administrator")] // de vazut cum faci sa vada orcine, nu doar daca esti deja logat
         public ActionResult Index()
         {
             //de verificat cum arata impartirea pe pagini (ulterior si cu stilizare din view-uri, care momentan sunt temporare si de vazut si cum e cu partial views)
-            var news = db.News.Include("Comments").Include("Category").Include("User").OrderByDescending(a => a.Date);
-            var thumbNews = db.ThumbnailedNews.Include("User").OrderByDescending(a => a.Date);
+            var news = db.News.Include("Comments").Include("Category").Include("User").OrderBy(a => a.Date);
 
             var totalItems = news.Count();
             var currentPage = Convert.ToInt32(Request.Params.Get("page"));
@@ -38,7 +37,6 @@ namespace GrozaNews.Controllers
             }
 
             var paginatedNews= news.Skip(offset).Take(this._perPage);
-            var paginatedThumbNews = thumbNews.Skip(offset).Take(this._perPage);
 
             if (TempData.ContainsKey("message"))
             {
@@ -49,8 +47,36 @@ namespace GrozaNews.Controllers
             ViewBag.total = totalItems;
             ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)this._perPage);
             ViewBag.News = paginatedNews;
-            ViewBag.ThumbNews = paginatedThumbNews;
 
+            return View();
+        }
+
+        public ActionResult IndexThumbNews()
+        {
+            //de verificat cum arata impartirea pe pagini (ulterior si cu stilizare din view-uri, care momentan sunt temporare si de vazut si cum e cu partial views)
+            var thumbNews = db.ThumbnailedNews.Include("User").OrderBy(a => a.Date);
+
+            var totalItems = thumbNews.Count();
+            var currentPage = Convert.ToInt32(Request.Params.Get("page"));
+
+            var offset = 0;
+
+            if (!currentPage.Equals(0))
+            {
+                offset = (currentPage - 1) * this._perPage;
+            }
+            
+            var paginatedThumbNews = thumbNews.Skip(offset).Take(this._perPage);
+
+            if (TempData.ContainsKey("message"))
+            {
+                ViewBag.message = TempData["message"].ToString();
+            }
+
+            ViewBag.perPage = this._perPage;
+            ViewBag.total = totalItems;
+            ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)this._perPage);
+            ViewBag.ThumbNews = paginatedThumbNews;
 
             return View();
         }
@@ -611,7 +637,7 @@ namespace GrozaNews.Controllers
                             db.SaveChanges();
                             TempData["message"] = "Stirea a fost modificata!";
                         }
-                        return RedirectToAction("Index");
+                        return RedirectToAction("IndexThumbNews");
                     }
                     else
                     {
