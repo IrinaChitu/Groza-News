@@ -11,7 +11,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-@*<div class="panel-heading article-heading">
+<div class="panel-heading article-heading">
     <span class="font-roboto article-title">@Model.Title</span>
 </div>
 
@@ -34,70 +34,184 @@
         <i class="glyphicon glyphicon-user"></i>
         <strong> @Model.User.Email.Split('@')[0] </strong>
     </div>
-</div>*@
+</div>
 
-<h2>@Model.Title</h2>
-<h2>@Model.NewsId</h2>
-<p>@Model.Content</p>
-<img src="@Url.Action("GetImage", "News", new { @Model.NewsId })" alt="News Image" />
-<p>@Model.Date</p>
+@*<h2>@Model.Title</h2>
+    <h2>@Model.NewsId</h2>
+    <p>@Model.Content</p>
+    <img src="@Url.Action("GetImage", "News", new { @Model.NewsId })" alt="News Image" />
+    <p>@Model.Date</p>*@
 
 @foreach (var comment in Model.Comments)
 {
-    @Html.Label("UserId", "Autor comentariu:")
-    <p>@comment.User.Email</p>
-    <p>@comment.Content</p>
+    if (TempData.ContainsKey("inEditMode") && TempData.ContainsKey("commentInEditMode") && comment.CommentId == (int)TempData["commentInEditMode"])
+    {
+        @Html.Partial("_editComment", comment);
+    }
+    else
+    {
+        <div class="panel-heading article-heading">
+            <span class="font-roboto article-title">@comment.User.Email.Split('@')[0]</span>
+        </div>
 
+        <div class="panel-body">
+
+            <div class="article-content-wrapper">
+                @Html.Raw(comment.Content)
+            </div>
+
+        </div>
+
+        <div class="article-meta">
+            <span class="">
+                <i class="glyphicon glyphicon-time"></i>
+                @comment.Date
+            </span>
+        </div>
+    }
     if (User.Identity.GetUserId() == comment.UserId || User.IsInRole("Administrator"))
     {
-        if (TempData.ContainsKey("inEditMode") && TempData.ContainsKey("commentInEditMode"))
+        if (!(TempData.ContainsKey("inEditMode") && TempData.ContainsKey("commentInEditMode") && comment.CommentId == (int)TempData["commentInEditMode"]))
         {
-            @Html.Partial("_editComment", comment);
+        <div class="panel-footer article-panel-footer around">
+            <a class="btn btn-success" href="/Comment/Edit/@comment.CommentId">Editare comentariu</a>
+            <form method="post" action="/Comment/Delete/@comment.CommentId">
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                <button class="btn-danger" type="submit">Sterge comentariu</button>
+            </form>
+        </div>
+            
+        }
+    }
+
+
+
+
+
+
+
+
+    @*if (User.Identity.GetUserId() == comment.UserId || User.IsInRole("Administrator"))
+    {
+        if (TempData.ContainsKey("inEditMode") && TempData.ContainsKey("commentInEditMode") && comment.CommentId == (int)TempData["commentInEditMode"])
+        {
+                @Html.Partial("_editComment", comment);
+            }
+            else
+            {
+                <a class="btn btn-success" href="/Comment/Edit/@comment.CommentId">Editare comentariu</a>
+                <form method="post" action="/Comment/Delete/@comment.CommentId">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button class="btn-danger" type="submit">Sterge comentariu</button>
+                </form>
+            }
         }
         else
         {
+            <div class="panel-heading article-heading">
+                <span class="font-roboto article-title">@comment.User.Email.Split('@')[0]</span>
+            </div>
+
+            <div class="panel-body">
+
+                <div class="article-content-wrapper">
+                    @Html.Raw(comment.Content)
+                </div>
+
+            </div>
+
+            <div class="article-meta">
+                <span class="">
+                    <i class="glyphicon glyphicon-time"></i>
+                    @comment.Date
+                </span>
+            </div>
+
+            <div class="panel-footer article-panel-footer around">
+
+            </div>
+        }
+        <div class="panel-heading article-heading">
+            <span class="font-roboto article-title">@comment.User.Email.Split('@')[0]</span>
+        </div>
+
+        <div class="panel-body">
+
+            <div class="article-content-wrapper">
+                @Html.Raw(comment.Content)
+            </div>
+
+        </div>
+
+        <div class="article-meta">
+            <span class="">
+                <i class="glyphicon glyphicon-time"></i>
+                @comment.Date
+            </span>
+        </div>
+
+        <div class="panel-footer article-panel-footer around">
             <a class="btn btn-success" href="/Comment/Edit/@comment.CommentId">Editare comentariu</a>
             <form method="post" action="/Comment/Delete/@comment.CommentId">
                 @Html.HttpMethodOverride(HttpVerbs.Delete)
                 <button type="submit">Sterge comentariu</button>
             </form>
-        }
+        </div>*@
+
+        @*@Html.Label("UserId", "Autor comentariu:")
+            <p>@comment.User.Email</p>
+            <p>@comment.Content</p>
+
+            if (User.Identity.GetUserId() == comment.UserId || User.IsInRole("Administrator"))
+            {
+                if (TempData.ContainsKey("inEditMode") && TempData.ContainsKey("commentInEditMode"))
+                {
+                    @Html.Partial("_editComment", comment);
+                }
+                else
+                {
+                    <a class="btn btn-success" href="/Comment/Edit/@comment.CommentId">Editare comentariu</a>
+                    <form method="post" action="/Comment/Delete/@comment.CommentId">
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                        <button type="submit">Sterge comentariu</button>
+                    </form>
+                }
+            }*@
+        <br />
+        <hr />
+        <br />
+    }
+
+    @if (Request.IsAuthenticated)
+    {
+        <form method="post" action="/Comment/New">
+
+            <textarea name="Content" placeholder="Scrie comentariu nou"></textarea>
+            <br />
+
+            <input type="hidden" name="Date" value="@DateTime.Now" />
+            <input type="hidden" name="NewsId" value="@Model.NewsId" />
+            <br />
+
+            <button type="submit">Adauga comentariu</button>
+        </form>
+    }
+
+    @if ((User.IsInRole("Editor") && User.Identity.GetUserId() == Model.UserId) || User.IsInRole("Administrator"))
+    {
+        <a href="/News/Edit/@Model.NewsId">Modifica stire</a>
+
+        <form method="post" action="/News/Delete/@Model.NewsId">
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button type="submit">Sterge stire</button>
+        </form>
+    }
+
+    <hr /> <a href="/News/Index">Inapoi la stiri</a>
+
+    @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+    {
+        <br />
+        <a href="/News/New">Adauga stire</a>
     }
     <br />
-    <hr />
-    <br />
-}
-
-@if (Request.IsAuthenticated)
-{
-    <form method="post" action="/Comment/New">
-
-        <textarea name="Content" placeholder="Scrie comentariu nou"></textarea>
-        <br />
-
-        <input type="hidden" name="Date" value="@DateTime.Now" />
-        <input type="hidden" name="NewsId" value="@Model.NewsId" />
-        <br />
-
-        <button type="submit">Adauga comentariu</button>
-    </form>
-}
-
-@if ((User.IsInRole("Editor") && User.Identity.GetUserId() == Model.UserId) || User.IsInRole("Administrator"))
-{
-    <a href="/News/Edit/@Model.NewsId">Modifica stire</a>
-
-    <form method="post" action="/News/Delete/@Model.NewsId">
-        @Html.HttpMethodOverride(HttpVerbs.Delete)
-        <button type="submit">Sterge stire</button>
-    </form>
-}
-
-<hr /> <a href="/News/Index">Inapoi la stiri</a>
-
-@if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
-{
-    <br />
-    <a href="/News/New">Adauga stire</a>
-}
-<br />
