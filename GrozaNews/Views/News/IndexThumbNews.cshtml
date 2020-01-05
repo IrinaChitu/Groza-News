@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity;
 
 @{
-    ViewBag.Title = "IndexThumbNews";
+    ViewBag.Title = "Stiri preluate";
 }
 
 @if (TempData.ContainsKey("ErrorMessage"))
@@ -20,21 +20,42 @@
 
 @foreach (var thumbNews in ViewBag.ThumbNews)
 {
-    <h2>@thumbNews.Title</h2>
-    <h3>@thumbNews.Headline</h3>
-    <h2>@thumbNews.NewsId</h2>
-    <p>@thumbNews.Date</p>
-    <a href=@thumbNews.LinkStire><img src="@Url.Action("GetThumbnailImage", "News", new { @thumbNews.NewsId })" alt="News Image" /></a>
-    <br />
-    <br />
+    <div class="panel-heading article-heading">
+        <span class="font-roboto article-title">@thumbNews.Title</span>
+    </div>
+
+    <div class="panel-body">
+        <div class="article-content-wrapper" style="font-size:15px; font-weight:bold; text-align:center">
+            @Html.Raw(thumbNews.Headline)
+        </div>
+
+        <div>
+            <a href=@thumbNews.LinkStire><img src="@Url.Action("GetThumbnailImage", "News", new { @thumbNews.NewsId })" style="width:100%; height:350px" alt="News Image" /></a>
+        </div>
+    </div>
+    <div class="article-meta">
+        <span class="">
+            <i class="glyphicon glyphicon-time"></i>
+            @thumbNews.Date
+        </span>
+
+        <div>
+            <i class="glyphicon glyphicon-user"></i>
+            <strong> @thumbNews.User.Email.Split('@')[0] </strong>
+        </div>
+    </div>
+
     if ((User.IsInRole("Editor") && User.Identity.GetUserId() == thumbNews.UserId) || User.IsInRole("Administrator"))
     {
+    <div class="panel-footer article-panel-footer around">
         <a href="/News/EditThumb/@thumbNews.NewsId">Modifica stire</a>
 
         <form method="post" action="/News/DeleteThumb/@thumbNews.NewsId">
             @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button type="submit">Sterge stire</button>
+            <button class="btn btn-danger" type="submit">Sterge stire</button>
         </form>
+    </div>
+        
     }
 
     <br />
