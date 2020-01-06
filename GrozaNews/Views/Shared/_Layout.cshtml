@@ -28,7 +28,7 @@
                     @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                     @if (User.IsInRole("Administrator"))
                     {
-                        <li>@Html.ActionLink("List of users", "UsersList", "Account")</li>
+                        <li>@Html.ActionLink("Lista Utilizatori", "UsersList", "Account")</li>
                     }
                     @if (User.IsInRole("User"))
                     {
@@ -38,13 +38,12 @@
                     {
                         <li><a href="/News/IndexProposedNews">Propuneri</a></li>
                     }
-                    <li>
-                        <form action="/News/SearchNews">
-                            <input class="search-bar" type="text" name="searching" placeholder="Search news here" />
-
-                            <button class="btn btn-sm btn-success" type="submit">Cauta</button>
-                        </form>
-                    </li>
+                <li>
+                    <form action="/News/SearchNews">
+                        <input class="search-bar" type="text" name="searching" placeholder="Search news here" />
+                        <button class="btn btn-sm btn-success" type="submit">Cauta</button>
+                    </form>
+                </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

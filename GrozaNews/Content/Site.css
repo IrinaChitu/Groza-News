@@ -22,7 +22,7 @@ body {
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 100%;
 }
 
 .field-validation-valid {
@@ -149,7 +149,7 @@ textarea {
 
 .search-bar {
     margin-top: 8px;
-    width: 150px;
+    width: 300px;
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
@@ -163,6 +163,6 @@ textarea {
     transition: width 0.4s ease-in-out;
 }
 
-.search-bar:focus {
+/*.search-bar:focus {
     width: 75%;
-}
+}*/

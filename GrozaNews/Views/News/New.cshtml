@@ -1,9 +1,10 @@
 ﻿@model GrozaNews.Models.News
 @{
-    ViewBag.Title = "New";
+    ViewBag.Title = "Adauga o noua stire";
 }
 
 <h2>@ViewBag.Title</h2>
+<br />
 
 @using (Html.BeginForm("New", "News", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
 {
@@ -34,6 +35,9 @@
 
     @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
     <br />
+    <br />
+
+    <label>Adaugati o fotografie reprezentativa</label>
     if (ViewBag.Img != null)
     {
         <img src="@ViewBag.Img"></img>
@@ -44,13 +48,16 @@
     }
     else
     {
-        <div class="col-md-10">
-            <input name="image" type="file" required/>
+        <div>
+            <input name="image" type="file" required />
             @Html.ValidationMessageFor(model => model.ImageData)
         </div>
     }
+    <br />
 
     <br />
 
-    <button class="btn btn-sm btn-success" type="submit">Adauga stire</button>
+    <div class="panel-footer article-panel-footer around" style="background-color:white">
+        <button class="btn btn-success" style="margin-top:20px" type="submit">Adauga stire</button>
+    </div>
 }

@@ -182,19 +182,27 @@
         <br />
     }
 
+
+
+
+
+
+
+
+
     @if (Request.IsAuthenticated)
     {
-        <form method="post" action="/Comment/New">
+<form method="post" action="/Comment/New">
 
-            <textarea name="Content" placeholder="Scrie comentariu nou"></textarea>
-            <br />
+    <textarea class="autoExpand forumPost form-control" rows="4" data-min-rows="4" name="Content" placeholder="Scrie comentariu nou"></textarea>
 
-            <input type="hidden" name="Date" value="@DateTime.Now" />
-            <input type="hidden" name="NewsId" value="@Model.NewsId" />
-            <br />
+    <input type="hidden" name="Date" value="@DateTime.Now" />
+    <input type="hidden" name="NewsId" value="@Model.NewsId" />
 
-            <button type="submit">Adauga comentariu</button>
-        </form>
+    <div class="panel-footer article-panel-footer around">
+        <button class="btn btn-success" type="submit">Adauga comentariu</button>
+    </div>
+</form>
     }
 
     @if ((User.IsInRole("Editor") && User.Identity.GetUserId() == Model.UserId) || User.IsInRole("Administrator"))

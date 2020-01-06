@@ -12,8 +12,8 @@
     <div class="panel-heading article-heading">
         <span class="font-roboto article-title">@Model.User.Email.Split('@')[0]</span>
     </div>
-    <br/>
-    <textarea name="Content" placeholder=@Model.Content>@Model.Content</textarea>
+    <br />
+    <textarea class="autoExpand forumPost form-control" style="width:100%" rows="4" data-min-rows="4" name="Content" placeholder=@Model.Content>@Model.Content</textarea>
     <br />
 
     <input type="hidden" name="Date" value="@DateTime.Now" />
