@@ -54,4 +54,7 @@ cand modific comentariu sa ma duca chiar la cel modificat (stiu ca s eputea cu c
 
 
 ToDo Teo:
--- NewThumbnail -> redirect to Check also..
+-- NewThumbnail -> redirect to Check also.. (DONE)
+
+Things to check:
+-- Order By Date la news. (Ceva ciudat se intampla cand mai adaugam si stiri propuse, inca nu inteleg care-i treaba???)
