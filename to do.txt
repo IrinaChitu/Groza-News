@@ -38,6 +38,14 @@ TO DO:
 -- admin revoke or give right to ppl
 
 
+
+
+CE NE-A MAI RAMAS:
+- News/Index: stilizeaza Adauga stire si Adauga stire preluata
+- Category/Index: stilizeaza pagina in sine
+- Category/Show/id: ARATA HORROR
+
+
 UI stuff: ( vezi lab 7 pt inspiratie )
 
 aliniere -> buton cu text box (in principal) + la lista de categorii ceva mai estetic - popate cum e in lab7
@@ -46,7 +54,10 @@ navbar - culori mai pregnante + poate mai stilizezi la search bar
 -- validari pentru: inregistrare de 2 ori cu acelasi user!
 -- mesajele din temp sa fie frumos stilizate
 -- nu sunt sortare stirile corespunzator in index
-
+-- NewThumbnail -> redirect to Check also..
+-- News/IndexThumbNews -- saracie de linie la final
 ??????
+
+
 
 cand modific comentariu sa ma duca chiar la cel modificat (stiu ca s eputea cu ceva <a>)

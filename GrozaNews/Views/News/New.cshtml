@@ -40,8 +40,11 @@
     <label>Adaugati o fotografie reprezentativa</label>
     if (ViewBag.Img != null)
     {
+        <br />
         <img src="@ViewBag.Img"></img>
-        <div class="col-md-10">
+
+        <div >
+            <br />
             <input name="image" type="file" />
             @Html.ValidationMessageFor(model => model.ImageData)
         </div>

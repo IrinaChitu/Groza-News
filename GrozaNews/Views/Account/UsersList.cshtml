@@ -13,23 +13,22 @@
     if (@user.Item1 != User.Identity.GetUserId())
     {
         <div>
-            <i class="glyphicon glyphicon-user"></i>
-            <h2>@user.Item2</h2>
+            <i class="glyphicon glyphicon-user"><strong style="font-size:x-large"> @user.Item2</strong></i>
         </div>
-        <h2>@user.Item3</h2>
+        <h4><strong>Rol curent:</strong> @user.Item3</h4>
 
         <form method="post" action="/Account/ChangeRights/@user.Item1">
             @Html.HttpMethodOverride(HttpVerbs.Put)
 
-            <select name="roles" class="form-control">
-                <option value="Nothing"> ------------- Schimba drepturi ------------ </option>
+            <select name="roles" class="form-control" style="width:20%">
+                <option value="Nothing"> ------- Schimba drepturi ------- </option>
                 <option value="User">User</option>
                 <option value="Editor">Editor</option>
                 <option value="Administrator">Administrator</option>
                 <option value="Banned">Ban user</option>
             </select>
 
-            <button class="btn btn-revoke-rights" type="submit">Modifica dreptul</button>
+            <button class="btn btn-revoke-rights" style="width:20%" type="submit">Modifica dreptul</button>
         </form>
 
         <br />
