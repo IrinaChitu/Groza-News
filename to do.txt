@@ -1,41 +1,34 @@
-Starbucks Bd Unirii - loc de munca excelent
-Studentii, in lipsa de bibilioteca, au apelat la noua cafenea Starbucks pentru a isi putea continua educatia!
-
-
-Noua aparatura VR
-Extraordinar! In sfarsit functioneaza!
-
 Teo maine seara:
 -> autentificare (vezi roluri)
 -> styling in urma unei sedinte de design cu Irina (esteticiana sefa) ;)
 
 
 TO DO:
-- autentificare
-- in afisarea sitirlor pe cateogrii sort by date si alpha
-- thumbnails (+add headline)
-- userii propun stiri noi editorilor
-- search bar
-- revoke user/editor rights
-- validari
-- go back buttons
-- edit comment => partial view (cred)
+	- autentificare done
+	- in afisarea sitirlor pe cateogrii sort by date si alpha done
+	- thumbnails (+add headline) done
+	- userii propun stiri noi editorilor done
+	- search bar done
+- revoke user/editor rights (de retestat)
+- validari (de retestat)
+- go back buttons (de verificat ca sunt peste tot)
+	- edit comment => partial view (cred)
 - UI
 
 	1. done 
 	2. done
 	3. done
 	4. done
-5. thumbnail
-6. edit comentariu (DONE) + propune stiri noi
+	5. thumbnail
+	6. edit comentariu (DONE) + propune stiri noi
 	7. done
 	8. revoke rights -> DONE
 	
 
--- thumbnail -> treb modificat modelul cu un boolean shared
--- edit comment
--- propose news as user and as editor accept or revoke
--- admin revoke or give right to ppl
+	-- thumbnail -> treb modificat modelul cu un boolean shared done
+	-- edit comment done
+	-- propose news as user and as editor accept or revoke done
+	-- admin revoke or give right to ppl done
 
 
 
@@ -46,7 +39,7 @@ CE NE-A MAI RAMAS:
 - Category/Show/id: ARATA HORROR
 
 
-UI stuff: ( vezi lab 7 pt inspiratie )
+UI stuff:
 
 aliniere -> buton cu text box (in principal) + la lista de categorii ceva mai estetic - popate cum e in lab7
 Culori - alege paleta (butoane si diverse highlights)
@@ -54,10 +47,11 @@ navbar - culori mai pregnante + poate mai stilizezi la search bar
 -- validari pentru: inregistrare de 2 ori cu acelasi user!
 -- mesajele din temp sa fie frumos stilizate
 -- nu sunt sortare stirile corespunzator in index
--- NewThumbnail -> redirect to Check also..
 -- News/IndexThumbNews -- saracie de linie la final
+
 ??????
-
-
-
 cand modific comentariu sa ma duca chiar la cel modificat (stiu ca s eputea cu ceva <a>)
+
+
+ToDo Teo:
+-- NewThumbnail -> redirect to Check also..

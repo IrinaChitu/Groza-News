@@ -24,7 +24,7 @@ namespace GrozaNews.Controllers
         public ActionResult Index()
         {
             //de verificat cum arata impartirea pe pagini (ulterior si cu stilizare din view-uri, care momentan sunt temporare si de vazut si cum e cu partial views)
-            var news = db.News.Include("Comments").Include("Category").Include("User").OrderBy(a => a.Date);
+            var news = db.News.Include("Comments").Include("Category").Include("User").OrderByDescending(a => a.Date);
 
             var totalItems = news.Count();
             var currentPage = Convert.ToInt32(Request.Params.Get("page"));

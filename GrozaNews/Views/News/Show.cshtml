@@ -209,15 +209,20 @@
     </form>
 }
 
-@if ((User.IsInRole("Editor") && User.Identity.GetUserId() == Model.UserId) || User.IsInRole("Administrator"))
-{
-    <a href="/News/Edit/@Model.NewsId">Modifica stire</a>
+<br />
 
-    <form method="post" action="/News/Delete/@Model.NewsId">
-        @Html.HttpMethodOverride(HttpVerbs.Delete)
-        <button type="submit">Sterge stire</button>
-    </form>
-}
+<div class="panel-footer article-panel-footer around" style="background-color:white">
+
+    @if (User.IsInRole("Administrator") || (User.IsInRole("Editor") && User.Identity.GetUserId() == Model.UserId))
+    {
+        <a class="btn btn-success"  style="margin-top:20px" href="/News/Edit/@Model.NewsId">Editare stire</a>
+        <form method="post" action="/News/Delete/@Model.NewsId">
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button class="btn btn-danger"  style="margin-top:20px" type="submit">Sterge stire</button>
+        </form>
+
+    }
+</div>
 
 <hr /> <a href="/News/Index">Inapoi la stiri</a>
 

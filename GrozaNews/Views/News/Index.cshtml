@@ -53,7 +53,17 @@
     <div class="panel-footer article-panel-footer around">
 
         <a class="btn btn-sm btn-success full-width" href="/News/Show/@news.NewsId">Afisare stire</a>
+        @if (User.IsInRole("Administrator") || (User.IsInRole("Editor") && User.Identity.GetUserId() == news.UserId))
+        {
+            <a class="btn btn-sm btn-success" href="/News/Edit/@news.NewsId">Editare stire</a>
+            <form method="post" action="/News/Delete/@news.NewsId">
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                <button class="btn btn-sm btn-danger" type="submit">Sterge stire</button>
+            </form>
+
+        }
     </div>
+    
     <br />
 }
 
@@ -87,10 +97,12 @@
 </div>
 
 
-@if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
-{
-    <br />
-    <a href="/News/New">Adauga stire</a>
-    <br />
-    <a href="/News/NewThumbnail">Adauga stire preluata</a>
-}
+
+
+<div class="panel-footer article-panel-footer around" style="background-color:white">
+    @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+    {
+        <a class="btn btn-info" style="margin-top:20px" href="/News/New">Adauga stire</a>
+        <a class="btn btn-info" style="margin-top:20px" href="/News/NewThumbnail">Adauga stire preluata</a>
+    }
+</div>
