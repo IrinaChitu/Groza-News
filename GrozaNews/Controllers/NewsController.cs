@@ -284,10 +284,16 @@ namespace GrozaNews.Controllers
                     if (TempData.ContainsKey("ProposedNewsToDelete") == true)
                     {
                         db.ProposedNews.Remove(db.ProposedNews.Find(TempData["ProposedNewsToDelete"]));
+                        db.SaveChanges();
+                        TempData["message"] = "Stirea a fost adaugata!";
+                        return RedirectToAction("IndexProposedNews");
                     }
-                    db.SaveChanges();
-                    TempData["message"] = "Stirea a fost adaugata!";
-                    return RedirectToAction("Index");
+                    else
+                    {
+                        db.SaveChanges();
+                        TempData["message"] = "Stirea a fost adaugata!";
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {

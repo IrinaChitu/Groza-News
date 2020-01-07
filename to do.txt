@@ -45,9 +45,13 @@ Propuneri extra:
 cand modific comentariu sa ma duca chiar la cel modificat (stiu ca se putea cu ceva <a>)
 
 
-ToDo Teo:
--- NewThumbnail -> redirect to Check also.. (momentan face redirect catre GrozaNews)
+ToDo:
+
+-- NewThumbnail -> redirect to Check also.. (momentan face redirect catre GrozaNews) (DONE)
 -- sort in GrozaNews si acelasi sort (dupa recent date) si in Check also.. (aka stiri preluate)
 -- navbar - culori mai pregnante + poate mai stilizezi la search bar
 -- validari pentru: inregistrare de 2 ori cu acelasi user! + altele if found
 -- mesajele din temp sa fie frumos stilizate
+
+Things to check:
+-- Order By Date la news. (Ceva ciudat se intampla cand mai adaugam si stiri propuse, inca nu inteleg care-i treaba???)
