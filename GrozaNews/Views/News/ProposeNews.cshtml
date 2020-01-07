@@ -5,6 +5,8 @@
 
 <h2>@ViewBag.Title</h2>
 
+<br />
+
 @using (Html.BeginForm("ProposeNews", "News", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(false, "", new { @class = "text-danger" })
@@ -46,6 +48,6 @@
 
 
     <div class="panel-footer article-panel-footer around" style="background-color:white">
-        <button class="btn btn-success" style="margin-top:20px" type="submit">Propune stire</button>
+        <button class="btn btn-info" style="margin-top:20px" type="submit">Propune stire</button>
     </div>
 }

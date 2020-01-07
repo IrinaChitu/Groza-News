@@ -11,6 +11,8 @@
 
 <h2>@ViewBag.Title</h2>
 
+<br />
+
 @foreach (var news in ViewBag.News)
 {
     <div class="panel-heading article-heading">
@@ -45,15 +47,13 @@
         {
             @Html.HttpMethodOverride(HttpVerbs.Put)
             <input class="btn btn-sm btn-success" name="submitButton" type="submit" value="Accept" />
-            <input class="btn btn-sm btn-warning" name="submitButton" type="submit" value="Edit" />
+            <input class="btn btn-sm btn-warning" style="margin-left:10px; margin-right:10px;" name="submitButton" type="submit" value="Edit" />
             <input class="btn btn-sm btn-danger" name="submitButton" type="submit" value="Reject" />
         }
     </div>
 
 
     <br />
-    <hr />
+    <br />
     <br />
 }
-
-<br />

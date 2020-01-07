@@ -78,7 +78,7 @@
         if (!(TempData.ContainsKey("inEditMode") && TempData.ContainsKey("commentInEditMode") && comment.CommentId == (int)TempData["commentInEditMode"]))
         {
             <div class="panel-footer article-panel-footer around">
-                <a class="btn btn-success" href="/Comment/Edit/@comment.CommentId">Editare comentariu</a>
+                <a class="btn btn-info" href="/Comment/Edit/@comment.CommentId">Editare comentariu</a>
                 <form method="post" action="/Comment/Delete/@comment.CommentId">
                     @Html.HttpMethodOverride(HttpVerbs.Delete)
                     <button class="btn btn-danger" type="submit">Sterge comentariu</button>
@@ -204,7 +204,7 @@
         <input type="hidden" name="NewsId" value="@Model.NewsId" />
 
         <div class="panel-footer article-panel-footer around">
-            <button class="btn btn-success" type="submit">Adauga comentariu</button>
+            <button class="btn btn-info" type="submit">Adauga comentariu</button>
         </div>
     </form>
 }
@@ -215,20 +215,39 @@
 
     @if (User.IsInRole("Administrator") || (User.IsInRole("Editor") && User.Identity.GetUserId() == Model.UserId))
     {
-        <a class="btn btn-success"  style="margin-top:20px" href="/News/Edit/@Model.NewsId">Editare stire</a>
+        <a class="btn btn-info" style="margin-top:20px" href="/News/Edit/@Model.NewsId">Editare stire</a>
         <form method="post" action="/News/Delete/@Model.NewsId">
             @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button class="btn btn-danger"  style="margin-top:20px" type="submit">Sterge stire</button>
+            <button class="btn btn-danger" style="margin-top:20px" type="submit">Sterge stire</button>
         </form>
 
     }
+    <a class="btn btn-info" style="margin-top:20px" href="/News/Index">Inapoi la stiri</a>
+
+    @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+    {
+        <a class="btn btn-info" style="margin-top:20px" href="/News/New">Adauga stire</a>
+    }
+
 </div>
 
-<hr /> <a href="/News/Index">Inapoi la stiri</a>
 
-@if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
-{
-    <br />
-    <a href="/News/New">Adauga stire</a>
-}
-<br />
+@*<div class="panel-footer article-panel-footer around" style="background-color:white">
+
+  
+    <a class="btn btn-info"  style="margin-top:20px"  href="/News/Index">Inapoi la stiri</a>
+
+    @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+    {
+        <a class="btn btn-info"  style="margin-top:20px"  href="/News/New">Adauga stire</a>
+    }
+</div>*@
+
+@*<a href="/News/Index">Inapoi la stiri</a>
+
+    @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+    {
+        <br />
+        <a href="/News/New">Adauga stire</a>
+    }
+    <br />*@

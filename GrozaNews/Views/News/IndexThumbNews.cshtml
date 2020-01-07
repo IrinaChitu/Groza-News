@@ -48,7 +48,7 @@
     if ((User.IsInRole("Editor") && User.Identity.GetUserId() == thumbNews.UserId) || User.IsInRole("Administrator"))
     {
         <div class="panel-footer article-panel-footer around">
-            <a class="btn btn-success" href="/News/EditThumb/@thumbNews.NewsId">Modifica stire</a>
+            <a class="btn btn-info" href="/News/EditThumb/@thumbNews.NewsId">Modifica stire</a>
 
             <form method="post" action="/News/DeleteThumb/@thumbNews.NewsId">
                 @Html.HttpMethodOverride(HttpVerbs.Delete)
@@ -91,10 +91,10 @@
 </div>
 
 
-@if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
-{
-    <br />
-    <a href="/News/New">Adauga stire</a>
-    <br />
-    <a href="/News/NewThumbnail">Adauga stire preluata</a>
-}
+<div class="panel-footer article-panel-footer around" style="background-color:white">
+    @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+    {
+        <a class="btn btn-info" style="margin-top:20px" href="/News/New">Adauga stire</a>
+        <a class="btn btn-info" style="margin-top:20px" href="/News/NewThumbnail">Adauga stire preluata</a>
+    }
+</div>

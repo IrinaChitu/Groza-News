@@ -52,10 +52,10 @@
 
     <div class="panel-footer article-panel-footer around">
 
-        <a class="btn btn-sm btn-success full-width" href="/News/Show/@news.NewsId">Afisare stire</a>
+        <a class="btn btn-sm btn-info full-width" href="/News/Show/@news.NewsId">Afisare stire</a>
         @if (User.IsInRole("Administrator") || (User.IsInRole("Editor") && User.Identity.GetUserId() == news.UserId))
         {
-            <a class="btn btn-sm btn-success" href="/News/Edit/@news.NewsId">Editare stire</a>
+            <a class="btn btn-sm btn-info" href="/News/Edit/@news.NewsId">Editare stire</a>
             <form method="post" action="/News/Delete/@news.NewsId">
                 @Html.HttpMethodOverride(HttpVerbs.Delete)
                 <button class="btn btn-sm btn-danger" type="submit">Sterge stire</button>

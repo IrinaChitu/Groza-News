@@ -13,10 +13,10 @@
 @foreach (var category in ViewBag.Categories)
 {
     <h2>@category.CategoryName</h2>
-    <a class="btn btn-success" href="/Category/Show/@category.CategoryId">Afisare categorie</a>
+    <a class="btn btn-info" href="/Category/Show/@category.CategoryId">Afisare categorie</a>
     if (User.IsInRole("Administrator"))
     {
-        <a class="btn btn-success" href="/Category/Edit/@category.CategoryId">Editare categorie</a>
+        <a class="btn btn-info" href="/Category/Edit/@category.CategoryId">Editare categorie</a>
         <br />
     }
     <br />
@@ -33,6 +33,6 @@
         <br />
     }
 
-    <a class="btn btn-info" href="/News/Index" style="margin-top:20px">Lista stiri</a>
+    <a class="btn btn-info" href="/News/Index" style="margin-top:20px">Toate stirile</a>
     <br />
 </div>
