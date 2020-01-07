@@ -24,7 +24,7 @@ namespace GrozaNews.Controllers
         public ActionResult Index()
         {
             //de verificat cum arata impartirea pe pagini (ulterior si cu stilizare din view-uri, care momentan sunt temporare si de vazut si cum e cu partial views)
-            var news = db.News.Include("Comments").Include("Category").Include("User").OrderBy(a => a.Date);
+            var news = db.News.Include("Comments").Include("Category").Include("User").OrderByDescending(a => a.Date);
 
             var totalItems = news.Count();
             var currentPage = Convert.ToInt32(Request.Params.Get("page"));
@@ -284,10 +284,16 @@ namespace GrozaNews.Controllers
                     if (TempData.ContainsKey("ProposedNewsToDelete") == true)
                     {
                         db.ProposedNews.Remove(db.ProposedNews.Find(TempData["ProposedNewsToDelete"]));
+                        db.SaveChanges();
+                        TempData["message"] = "Stirea a fost adaugata!";
+                        return RedirectToAction("IndexProposedNews");
                     }
-                    db.SaveChanges();
-                    TempData["message"] = "Stirea a fost adaugata!";
-                    return RedirectToAction("Index");
+                    else
+                    {
+                        db.SaveChanges();
+                        TempData["message"] = "Stirea a fost adaugata!";
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {
@@ -380,8 +386,8 @@ namespace GrozaNews.Controllers
             News news = db.News.FirstOrDefault(p => p.NewsId == NewsId);
             if (news != null)
             {
-                if (news.ImageThumbnail != null && news.ImageMimeType.ToString() != null)
-                    return File(news.ImageThumbnail, news.ImageMimeType.ToString());
+                if (news.ImageData != null && news.ImageMimeType.ToString() != null)
+                    return File(news.ImageData, news.ImageMimeType.ToString());
                 else
                     return null;
             }
@@ -396,8 +402,8 @@ namespace GrozaNews.Controllers
             ProposedNews news = db.ProposedNews.FirstOrDefault(p => p.NewsId == NewsId);
             if (news != null)
             {
-                if (news.ImageThumbnail != null && news.ImageMimeType.ToString() != null)
-                    return File(news.ImageThumbnail, news.ImageMimeType.ToString());
+                if (news.ImageData != null && news.ImageMimeType.ToString() != null)
+                    return File(news.ImageData, news.ImageMimeType.ToString());
                 else
                     return null;
             }

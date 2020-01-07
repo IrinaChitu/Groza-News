@@ -117,11 +117,11 @@ namespace GrozaNews.Controllers
 
         public ActionResult SortNews(int id)
         {
-            var news = db.News.Include("Comments").Include("Category").Include("User").OrderByDescending(a => a.Date);
+            var news = db.News.Include("Comments").Include("Category").Include("User").Where(n => n.CategoryId == id).OrderByDescending(a => a.Date);
 
             if (Request.Form["sortBy"] == "Title")
             {
-                news = db.News.Include("Comments").Include("Category").Include("User").OrderBy(a => a.Title);
+                news = db.News.Include("Comments").Include("Category").Include("User").Where(n => n.CategoryId == id).OrderBy(a => a.Title);
             }
             Category category = db.Categories.Find(id);
             category.News = news.ToList<News>();

@@ -50,11 +50,17 @@
     @*@Html.Label("ImageData", "Imagine")*@
     <img src="@Url.Action("GetThumbnailImage", "News", new { @Model.NewsId })" alt="News Image" />
     <br />
-    <div class="col-md-10">
+    <div>
         <input name="image" type="file" />
         @Html.ValidationMessageFor(model => model.ImageData)
     </div>
     <br />
     <br />
-    <button class="btn btn-sm btn-success" type="submit">Editeaza stire preluata</button>
+
+    <div class="panel-footer article-panel-footer around" style="background-color:white">
+        <button class="btn btn-info" style="margin-top:20px" type="submit">Editeaza stire preluata</button>
+        <a class="btn btn-info" style="margin-top:20px" href="/News/IndexThumbNews/">Inapoi</a>
+    </div>
+
 }
+

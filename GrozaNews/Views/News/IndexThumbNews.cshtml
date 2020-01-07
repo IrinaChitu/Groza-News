@@ -1,18 +1,18 @@
 ﻿@using Microsoft.AspNet.Identity;
 
 @{
-    ViewBag.Title = "IndexThumbNews";
+    ViewBag.Title = "Stiri preluate";
 }
 
 @if (TempData.ContainsKey("ErrorMessage"))
 {
-    <h2 class="error_message">@TempData["ErrorMessage"]</h2>
+    <h3 class="alert alert-danger" role="alert">@TempData["ErrorMessage"]</h3>
 
 }
 
 @if (TempData.ContainsKey("message"))
 {
-    <h2 class="edit_message">@TempData["message"]</h2>
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
 
 }
 
@@ -20,55 +20,81 @@
 
 @foreach (var thumbNews in ViewBag.ThumbNews)
 {
-    <h2>@thumbNews.Title</h2>
-    <h3>@thumbNews.Headline</h3>
-    <h2>@thumbNews.NewsId</h2>
-    <p>@thumbNews.Date</p>
-    <a href=@thumbNews.LinkStire><img src="@Url.Action("GetThumbnailImage", "News", new { @thumbNews.NewsId })" alt="News Image" /></a>
-    <br />
-    <br />
+    <div class="panel-heading article-heading">
+        <span class="font-roboto article-title">@thumbNews.Title</span>
+    </div>
+
+    <div class="panel-body">
+        <div class="article-content-wrapper" style="font-size:15px; font-weight:bold; text-align:center">
+            @Html.Raw(thumbNews.Headline)
+        </div>
+
+        <div>
+            <a href=@thumbNews.LinkStire><img src="@Url.Action("GetThumbnailImage", "News", new { @thumbNews.NewsId })" style="width:100%; height:350px" alt="News Image" /></a>
+        </div>
+    </div>
+    <div class="article-meta">
+        <span class="">
+            <i class="glyphicon glyphicon-time"></i>
+            @thumbNews.Date
+        </span>
+
+        <div>
+            <i class="glyphicon glyphicon-user"></i>
+            <strong> @thumbNews.User.Email.Split('@')[0] </strong>
+        </div>
+    </div>
+
     if ((User.IsInRole("Editor") && User.Identity.GetUserId() == thumbNews.UserId) || User.IsInRole("Administrator"))
     {
-        <a href="/News/EditThumb/@thumbNews.NewsId">Modifica stire</a>
+        <div class="panel-footer article-panel-footer around">
+            <a class="btn btn-info" href="/News/EditThumb/@thumbNews.NewsId">Modifica stire</a>
 
-        <form method="post" action="/News/DeleteThumb/@thumbNews.NewsId">
-            @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button type="submit">Sterge stire</button>
-        </form>
+            <form method="post" action="/News/DeleteThumb/@thumbNews.NewsId">
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                <button class="btn btn-danger" type="submit">Sterge stire</button>
+            </form>
+        </div>
+
     }
 
     <br />
-    <hr />
+    <br />
     <br />
 }
 
-@if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
-{
-    <br />
-    <a href="/News/New">Adauga stire</a>
-    <br />
-    <a href="/News/NewThumbnail">Adauga stire preluata</a>
-}
+
 
 <br />
 
-<div>
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-            <li>
-                <a href="/News/IndexThumbNews?page=1" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            @for (int i = 1; i <= ViewBag.lastPage; i++)
-            {
-                <li><a href="/News/IndexThumbNews?page=@i">@(i)</a></li>
-            }
-            <li>
-                <a href="/News/IndexThumbNews?page=@(ViewBag.lastPage)" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+<div class="panel-footer article-panel-footer around" style="background-color:white">
+    <div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="/News/IndexThumbNews?page=1" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                @for (int i = 1; i <= ViewBag.lastPage; i++)
+                {
+                    <li><a href="/News/IndexThumbNews?page=@i">@(i)</a></li>
+                }
+                <li>
+                    <a href="/News/IndexThumbNews?page=@(ViewBag.lastPage)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+<div class="panel-footer article-panel-footer around" style="background-color:white">
+    @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
+    {
+        <a class="btn btn-info" style="margin-top:20px" href="/News/New">Adauga stire</a>
+        <a class="btn btn-info" style="margin-top:20px" href="/News/NewThumbnail">Adauga stire preluata</a>
+    }
 </div>

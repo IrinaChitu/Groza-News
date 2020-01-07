@@ -1,7 +1,7 @@
 ﻿@model GrozaNews.Models.ThumbnailedNews
 
 @{
-    ViewBag.Title = "Noua stire preluata";
+    ViewBag.Title = "Adauga o stire preluata";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -37,19 +37,23 @@
 
     @*<label>Selectati categoria</label>
 
-    @Html.DropDownListFor(m => m.CategoryId, new SelectList(@ViewBag.Categories, "Value", "Text"),
-        "Selectati categoria", new { @class = "form-control" })*@
+        @Html.DropDownListFor(m => m.CategoryId, new SelectList(@ViewBag.Categories, "Value", "Text"),
+            "Selectati categoria", new { @class = "form-control" })*@
 
     @*@Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })*@
     @*<br />*@
 
     @*@Html.LabelFor(model => model.ImageData, new { @class = "control-label col-md-2" })*@
     @*@Html.Label("ImageData", "Imagine")*@
-    <div class="col-md-10">
-        <input name="image" type="file" required/>
+    @Html.Label("ImageData", "Adauga o fotografie sugestiva")
+    
+    <div>
+        <input name="image" type="file" required />
         @Html.ValidationMessageFor(model => model.ImageData)
     </div>
     <br />
     <br />
-    <button class="btn btn-sm btn-success" type="submit">Adauga stire preluata</button>
+    <div class="panel-footer article-panel-footer around" style="background-color:white">
+        <button class="btn btn-info" style="margin-top:20px" type="submit">Adauga stire preluata</button>
+    </div>
 }

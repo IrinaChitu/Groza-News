@@ -22,13 +22,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("News", "Index", "News")</li>
-                    <li>@Html.ActionLink("Categories", "Index", "Category")</li>
-                    <li>@Html.ActionLink("Check also...", "IndexThumbNews", "News")</li>
-                    @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                    <li>@Html.ActionLink("Categorii", "Index", "Category")</li>
+                    <li>@Html.ActionLink("Vezi si...", "IndexThumbNews", "News")</li>
+
                     @if (User.IsInRole("Administrator"))
                     {
-                        <li>@Html.ActionLink("List of users", "UsersList", "Account")</li>
+                        <li>@Html.ActionLink("Lista Utilizatori", "UsersList", "Account")</li>
                     }
                     @if (User.IsInRole("User"))
                     {
@@ -36,15 +35,14 @@
                     }
                     @if (User.IsInRole("Editor") || User.IsInRole("Administrator"))
                     {
-                        <li><a href="/News/IndexProposedNews">Lista stiri propuse</a></li>
+                        <li><a href="/News/IndexProposedNews">Propuneri</a></li>
                     }
-                    <li>
-                        <form action="/News/SearchNews">
-                            <input type="text" name="searching" placeholder="Search news here" />
-
-                            <button class="btn btn-sm btn-success" type="submit">Cauta</button>
-                        </form>
-                    </li>
+                <li>
+                    <form action="/News/SearchNews">
+                        <input class="search-bar" type="text" name="searching" placeholder="Cauta stire dupa titlu" />
+                        <button class="btn btn-sm btn-info" type="submit">Cauta</button>
+                    </form>
+                </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

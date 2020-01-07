@@ -1,9 +1,11 @@
 ﻿@model GrozaNews.Models.ProposedNews
 @{
-    ViewBag.Title = "ProposeNews";
+    ViewBag.Title = "Propune o stire";
 }
 
 <h2>@ViewBag.Title</h2>
+
+<br />
 
 @using (Html.BeginForm("ProposeNews", "News", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
 {
@@ -34,12 +36,18 @@
 
     @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
     <br />
+    <br />
 
-    <div class="col-md-10">
-        <input name="image" type="file" required/>
+    @Html.Label("ImageDate", "Incarca o fotografie sugestiva")
+    <div>
+        <input name="image" type="file" required />
         @Html.ValidationMessageFor(model => model.ImageData)
     </div>
     <br />
+    <br />
 
-    <button class="btn btn-sm btn-success" type="submit">Propune stire</button>
+
+    <div class="panel-footer article-panel-footer around" style="background-color:white">
+        <button class="btn btn-info" style="margin-top:20px" type="submit">Propune stire</button>
+    </div>
 }
