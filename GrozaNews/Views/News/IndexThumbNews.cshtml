@@ -6,13 +6,13 @@
 
 @if (TempData.ContainsKey("ErrorMessage"))
 {
-    <h2 class="error_message">@TempData["ErrorMessage"]</h2>
+    <h3 class="alert alert-danger" role="alert">@TempData["ErrorMessage"]</h3>
 
 }
 
 @if (TempData.ContainsKey("message"))
 {
-    <h2 class="edit_message">@TempData["message"]</h2>
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
 
 }
 

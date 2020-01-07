@@ -5,8 +5,7 @@
 
 @if (TempData.ContainsKey("message"))
 {
-    <h2 class="edit_message">@TempData["message"]</h2>
-
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
 }
 
 <h2>@ViewBag.Title</h2>
