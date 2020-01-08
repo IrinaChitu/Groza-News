@@ -54,7 +54,7 @@ namespace GrozaNews.Controllers
         public ActionResult IndexThumbNews()
         {
             //de verificat cum arata impartirea pe pagini (ulterior si cu stilizare din view-uri, care momentan sunt temporare si de vazut si cum e cu partial views)
-            var thumbNews = db.ThumbnailedNews.Include("User").OrderBy(a => a.Date);
+            var thumbNews = db.ThumbnailedNews.Include("User").OrderByDescending(a => a.Date);
 
             var totalItems = thumbNews.Count();
             var currentPage = Convert.ToInt32(Request.Params.Get("page"));
@@ -352,7 +352,7 @@ namespace GrozaNews.Controllers
                     db.ThumbnailedNews.Add(news);
                     db.SaveChanges();
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("IndexThumbNews");
                 }
                 else
                 {
