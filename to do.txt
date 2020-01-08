@@ -36,7 +36,7 @@ TO DO:
 CE NE-A MAI RAMAS:
 
 - Category/Index: stilizeaza pagina in sine
-- Category/Show/id: Button inapoi e de-ampulea
+
 
 
 
@@ -46,12 +46,22 @@ cand modific comentariu sa ma duca chiar la cel modificat (stiu ca se putea cu c
 
 
 ToDo:
-
--- NewThumbnail -> redirect to Check also.. (momentan face redirect catre GrozaNews) (DONE)
--- sort in GrozaNews si acelasi sort (dupa recent date) si in Check also.. (aka stiri preluate)
--- navbar - culori mai pregnante + poate mai stilizezi la search bar
+-- (DONE) sort in GrozaNews si acelasi sort (dupa recent date) si in Check also.. (aka stiri preluate)
+-- (DONE) NewThumbnail -> redirect to Check also.. (momentan face redirect catre GrozaNews) 
 -- validari pentru: inregistrare de 2 ori cu acelasi user! + altele if found
--- mesajele din temp sa fie frumos stilizate
+
+
 
 Things to check:
 -- Order By Date la news. (Ceva ciudat se intampla cand mai adaugam si stiri propuse, inca nu inteleg care-i treaba???)
+
+
+Issues:
+-- Category/Show/id -> butonul inapoi: pozitionat prost
+
+
+-- merge with UI_FINAL NOT DONE RIGHT!
+
+IN PLUS PE MASTER: (must pull)
+-- navbar - culori mai pregnante + poate mai stilizezi la search bar
+-- mesajele din temp sa fie frumos stilizate
