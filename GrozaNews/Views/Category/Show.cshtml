@@ -70,17 +70,24 @@
 
 
 
-<div class="panel-footer article-panel-footer around" style="background-color:white">
-    @using (Html.BeginForm(actionName: "Delete", controllerName: "Category", routeValues: new { id = @ViewBag.category.CategoryId }))
-    {
-        @Html.HttpMethodOverride(HttpVerbs.Delete)
-
-        if (User.IsInRole("Administrator"))
+    <div class="panel-footer article-panel-footer around" style="background-color:white">
+        @if (User.IsInRole("Administrator"))
         {
-            <button class="btn btn-danger" style="margin-top:20px" type="submit">Sterge categoria</button>
+            using (Html.BeginForm(actionName: "Delete", controllerName: "Category", routeValues: new { id = @ViewBag.category.CategoryId }))
+            {
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+
+                if (User.IsInRole("Administrator"))
+                {
+                    <button class="btn btn-danger" style="margin-top:20px" type="submit">Sterge categoria</button>
+                }
+            }
+            <a class="btn btn-info" href="/Category/Index/" style="margin-top:20px">Inapoi</a>
         }
-    }
-    <a class="btn btn-info" href="/Category/Index/" style="margin-top:20px">Inapoi</a>
-</div>
+        else
+        {
+            <a class="btn btn-info" href="/Category/Index/">Inapoi</a>
+        }
+    </div>
 
 
