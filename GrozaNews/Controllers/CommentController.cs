@@ -26,7 +26,7 @@ namespace GrozaNews.Controllers
                     comment.UserId = User.Identity.GetUserId();
                     db.Comments.Add(comment);
                     db.SaveChanges();
-                    // TempData["message"] = "Articolul a fost adaugat!";
+                    TempData["message"] = "Comentariul a fost adaugat!";
                     return Redirect($"/News/Show/{comment.NewsId}"); // aici ar trebui sa fac un partial view pt show news si apoi cand se adauga un comm in viewul comment/show sa se fol de partial view news/show si sa dea redirect la id-ul corespunzator news/show/id
                 }
                 else
@@ -114,7 +114,7 @@ namespace GrozaNews.Controllers
             {
                 db.Comments.Remove(comment);
                 db.SaveChanges();
-                // TempData["message"] = "Comentariul a fost sters!";
+                TempData["message"] = "Comentariul a fost sters!";
                 return Redirect($"/News/Show/{comment.NewsId}");
             }
             else

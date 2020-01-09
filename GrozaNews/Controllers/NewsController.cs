@@ -346,7 +346,7 @@ namespace GrozaNews.Controllers
                         }
                     }
 
-                    TempData["message"] = "Articolul a fost adaugat!";
+                    TempData["message"] = "Stirea a fost adaugata!";
 
                     //Save model object to database
                     db.ThumbnailedNews.Add(news);
@@ -485,7 +485,7 @@ namespace GrozaNews.Controllers
             else
             {
                 // recomand ca nici macar sa nu apara butonul de edit daca articolul nu e al tau // in view un check
-                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui articol care nu va apartine!";
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unei stiri care nu va apartine!";
                 return RedirectToAction("Index");
             }
         }
@@ -504,7 +504,7 @@ namespace GrozaNews.Controllers
             else
             {
                 // recomand ca nici macar sa nu apara butonul de edit daca articolul nu e al tau // in view un check
-                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui articol care nu va apartine!";
+                TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unei stiri care nu va apartine!";
                 return RedirectToAction("Index");
             }
         }
@@ -568,7 +568,7 @@ namespace GrozaNews.Controllers
                     }
                     else
                     {
-                        TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui articol care nu va apartine!";
+                        TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unei stiri care nu va apartine!";
                         return RedirectToAction("Index");
                     }
 
@@ -647,7 +647,7 @@ namespace GrozaNews.Controllers
                     }
                     else
                     {
-                        TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui articol care nu va apartine!";
+                        TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unei stiri care nu va apartine!";
                         return RedirectToAction("Index");
                     }
                 }
@@ -694,7 +694,7 @@ namespace GrozaNews.Controllers
                             //// Protect content from XSS
                             //// requestNews.Content = Sanitizer.GetSafeHtmlFragment(requestNews.Content);
                             news.Content = proposedNews.Content;
-                            news.Date = proposedNews.Date;
+                            news.Date = DateTime.Now.ToString();
                             news.ImageData = proposedNews.ImageData;
                             news.ImageMimeType = proposedNews.ImageMimeType;
                             news.ImageThumbnail = proposedNews.ImageThumbnail;
@@ -732,12 +732,12 @@ namespace GrozaNews.Controllers
             {
                 db.News.Remove(news);
                 db.SaveChanges();
-                TempData["message"] = "Articolul a fost sters!";
+                TempData["message"] = "Stirea a fost stearsa!";
                 return RedirectToAction("Index");
             }
             else
             {
-                TempData["message"] = "Nu aveti dreptul sa stergeti un articol care nu va apartine!";
+                TempData["message"] = "Nu aveti dreptul sa stergeti o stire care nu va apartine!";
                 return RedirectToAction("Index");
             }
         }
@@ -752,12 +752,12 @@ namespace GrozaNews.Controllers
                 db.ThumbnailedNews.Remove(news);
                 db.SaveChanges();
                 TempData["message"] = "Stirea a fost steara!";
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexThumbNews");
             }
             else
             {
-                TempData["message"] = "Nu aveti dreptul sa stergeti un articol care nu va apartine!";
-                return RedirectToAction("Index");
+                TempData["message"] = "Nu aveti dreptul sa stergeti o stire care nu va apartine!";
+                return RedirectToAction("IndexThumbNews");
             }
         }
 
@@ -802,6 +802,8 @@ namespace GrozaNews.Controllers
             }
 
             ViewBag.News = listOfNews;
+
+            TempData["message"] = "Rezultatele cautarii";
             return View("Index");
         }
     }

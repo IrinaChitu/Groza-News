@@ -99,7 +99,7 @@ namespace GrozaNews.Controllers
                     UserManager.AddToRole(id, "Banned");
                 }
             }
-
+            TempData["message"] = "Drepturile de acces a fost modificat!";
             return RedirectToAction("UsersList");
         }
 

@@ -4,6 +4,12 @@
     ViewBag.Title = "Lista utilizatorilor";
 }
 
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@TempData["message"]</h3>
+}
+
+
 <h2>@ViewBag.Title</h2>
 <br />
 
