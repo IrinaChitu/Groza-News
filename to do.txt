@@ -52,6 +52,7 @@ Things to check:
 
 
 Issues:
+- 	validari
 - (DONE) in News/Index -> pt afisare content sa fie doar primele x caractere ++ '...'
 - 	https://localhost:44390/Manage -> styling: adauga pt editor cate stiri are postate
 - (DONE) TEMPMESSAGE: Articolul ceva => Stire ceva + (DONE) scris central

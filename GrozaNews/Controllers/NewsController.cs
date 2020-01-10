@@ -84,27 +84,14 @@ namespace GrozaNews.Controllers
         public ActionResult IndexProposedNews()
         {
             var news = db.ProposedNews.Include("Category").Include("User").OrderByDescending(a => a.Date);
-            var totalItems = news.Count();
-            var currentPage = Convert.ToInt32(Request.Params.Get("page"));
 
-            var offset = 0;
-
-            if (!currentPage.Equals(0))
-            {
-                offset = (currentPage - 1) * this._perPage;
-            }
-
-            var paginatedNews = news.Skip(offset).Take(this._perPage);
 
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"].ToString();
             }
 
-            ViewBag.perPage = this._perPage;
-            ViewBag.total = totalItems;
-            ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)this._perPage);
-            ViewBag.News = paginatedNews;
+            ViewBag.News = news;
 
             if (TempData.ContainsKey("ProposedNewsToDelete") == true)
             {
@@ -668,8 +655,6 @@ namespace GrozaNews.Controllers
         [HttpPut]
         public ActionResult SubmitProposedNews(int id, string submitButton)
         {
-            // Am putea face aici un redirect catre formularul de News/New cu datele completate deja si acolo sa o adauge ca stire noua :-??
-            // Ramane de discutat
             try
             {
                 if (ModelState.IsValid)
